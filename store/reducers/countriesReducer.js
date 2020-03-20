@@ -1,5 +1,6 @@
 import {
     SET_COUNTRIES,
+    SET_COUNTRY,
     SET_TAGS,
     SET_CONTINENTS,
     ADD_TAG,
@@ -11,6 +12,7 @@ import {
 
 const initialState = {
     loadedCountries: [],
+    loadedFullCountry: [],
     loadedTags: [],
     loadedContinents: [],
     tagsFilter: [],
@@ -23,6 +25,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loadedCountries: state.loadedCountries.concat(action.countries)
+            }
+        case SET_COUNTRY:
+            return {
+                ...state,
+                loadedFullCountry: state.loadedFullCountry.concat(action.country)
             }
         case SET_TAGS:
             return {

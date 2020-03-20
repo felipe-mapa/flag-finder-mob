@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View, Image, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, View, Image, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps'
@@ -9,44 +9,141 @@ import Header from '../components/layout/header'
 import HeaderButton from '../components/layout/HeaderButton'
 import customMap from '../helpers/customMapStyle'
 import Banner from '../components/banner';
-import * as actions from '../store/actions/countriesAction'
+import * as countriesActions from '../store/actions/countriesAction'
+import Colors from '../components/layout/Colors'
 
 const CountryInfoScreen = props => {
+  const [isLoading, setIsLoading] = useState(true)
+
   // COUNTRY
+  const countryName = props.navigation.getParam('slug')
   const countryId = props.navigation.getParam('id')
 
   // SELECTORS
-  const selectedCountry = useSelector(state => state.countries.loadedCountries.find(c => c.id === countryId))
+  const selectedCountry = useSelector(state =>state.countries.loadedFullCountry.find(c => c.slug === countryName))
   const allTags = useSelector(state => state.countries.loadedTags)
   const allContinents = useSelector(state => state.countries.loadedContinents)
   const fav = useSelector(state => state.countries.favoriteCountries)
   const dispatch = useDispatch()
 
-  // TAG
-  const countryTags = allTags.map(tag => {
-    if (selectedCountry.tags.find(t => t === tag.id)) {
-      return tag.name
-    } else {
-      return null
+  // LOAD COUNTRY
+  useEffect(() => {
+    loadCountry()
+  }, [])
+  const loadCountry = useCallback(async () => {
+    try {
+      await dispatch(countriesActions.fetchCountry(countryName));
+    } catch (err) {
+      throw err
     }
-  }).filter(el => el != null)
-  const outputTags = countryTags.join(", ")
+    setIsLoading(false)
+  }, []);
 
-  // CONTINENT
-  const continent = allContinents.map(conty => {
-    if (selectedCountry.continent.find(c => c === conty.id)) {
-      return conty.name
-    } else {
-      return null
+  let pageContent = (<ActivityIndicator size="large" color={Colors.primaryColorDark} />)
+  if (!isLoading) {
+    // TAG
+    const countryTags = allTags.map(tag => {
+      if (selectedCountry.tags.find(t => t === tag.id)) {
+        return tag.name
+      } else {
+        return null
+      }
+    }).filter(el => el != null)
+    const outputTags = countryTags.join(", ")
+
+    // CONTINENT
+    const continent = allContinents.map(conty => {
+      if (selectedCountry.continent.find(c => c === conty.id)) {
+        return conty.name
+      } else {
+        return null
+      }
+    }).filter(el => el != null)
+
+    // COUNTRY REGION
+    const mapRegion = {
+      latitude: selectedCountry.latitude,
+      longitude: selectedCountry.longitude,
+      latitudeDelta: 80,
+      longitudeDelta: 80
     }
-  }).filter(el => el != null)
+
+    // SET CONTENT
+    pageContent = (
+      <View>
+        <View style={styles.block}>
+          <View style={styles.imageContainer}>
+            <Image style={styles.image} source={{ uri: selectedCountry.flag }} />
+          </View>
+          {selectedCountry.year < 1 ? null :
+            <TextDefault>
+              <TextDefault style={styles.bold}>Effective since: </TextDefault>
+              {selectedCountry.year}
+            </TextDefault>}
+          {selectedCountry.capital === '' ? null :
+            <TextDefault>
+              <TextDefault style={styles.bold}>Capital: </TextDefault>
+              {selectedCountry.capital}
+            </TextDefault>}
+          {selectedCountry.continent === '' ? null :
+            <TextDefault>
+              <TextDefault style={styles.bold}>Continent: </TextDefault>
+              {continent}
+            </TextDefault>}
+          {selectedCountry.population === '' ? null :
+            <TextDefault>
+              <TextDefault style={styles.bold}>Population: </TextDefault>
+              {selectedCountry.population}
+            </TextDefault>}
+          {selectedCountry.hdi === '' ? null :
+            <TextDefault>
+              <TextDefault style={styles.bold}>HDI: </TextDefault>
+              {selectedCountry.hdi}
+            </TextDefault>}
+          <View style={styles.padding}>
+            {selectedCountry.meaning === '' ? null : (
+              <View>
+                <Header>Meaning</Header>
+                <TextDefault>{selectedCountry.meaning}</TextDefault>
+              </View>
+            )}
+          </View>
+        </View>
+        <Banner />
+        <View style={styles.block}>
+          {isNaN(selectedCountry.latitude) || isNaN(selectedCountry.longitude) ? null : (
+            <View>
+              <Header>Where it is in the world</Header>
+              <MapView
+                style={styles.map}
+                region={mapRegion}
+                customMapStyle={customMap}
+              >
+                <Marker title={selectedCountry.name} coordinate={{
+                  latitude: selectedCountry.latitude,
+                  longitude: selectedCountry.longitude,
+                }} />
+              </MapView>
+            </View>
+          )}
+          {allTags < 0 ? null : (
+            <View style={styles.padding}>
+              <Header>Tags</Header>
+              <TextDefault>{outputTags}</TextDefault>
+            </View>
+          )}
+        </View>
+        <Banner />
+      </View>
+    )
+  }
 
   // FAVORITES
-  const toggleFavHandler = () => { 
-    if(fav.some(c => c === countryId)) {
-      dispatch(actions.delFavorite(countryId))
+  const toggleFavHandler = () => {
+    if (fav.some(c => c === countryId)) {
+      dispatch(countriesActions.delFavorite(countryId))
     } else {
-      dispatch(actions.addFavorite(countryId))
+      dispatch(countriesActions.addFavorite(countryId))
     }
   }
 
@@ -58,58 +155,9 @@ const CountryInfoScreen = props => {
     props.navigation.setParams({ isFav: fav.some(c => c === countryId) })
   }, [fav])
 
-  // COUNTRY REGION
-  const mapRegion = {
-    latitude: selectedCountry.latitude,
-    longitude: selectedCountry.longitude,
-    latitudeDelta: 80,
-    longitudeDelta: 80
-  }
-
   return (
     <ScrollView style={styles.screen}>
-      <View style={styles.block}>
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={{ uri: selectedCountry.flag }} />
-        </View>
-        {selectedCountry.year < 1 ? null : <TextDefault>Effective since: {selectedCountry.year}</TextDefault>}
-        {selectedCountry.capital === '' ? null : <TextDefault>Capital: {selectedCountry.capital}</TextDefault>}
-        {selectedCountry.continent === '' ? null : <TextDefault>Continent: {continent}</TextDefault>}
-        {selectedCountry.population === '' ? null : <TextDefault>Population: {selectedCountry.population}</TextDefault>}
-        <View style={styles.padding}>
-          {selectedCountry.meaning === '' ? null : (
-            <View>
-              <Header>Meaning</Header>
-              <TextDefault>{selectedCountry.meaning}</TextDefault>
-            </View>
-          )}
-        </View>
-      </View>
-      <Banner />
-      <View style={styles.block}>
-        {isNaN(selectedCountry.latitude) || isNaN(selectedCountry.longitude) ? null : (
-          <View>
-            <Header>Where it is in the world</Header>
-            <MapView
-              style={styles.map}
-              region={mapRegion}
-              customMapStyle={customMap}
-            >
-              <Marker title={selectedCountry.name} coordinate={{
-                latitude: selectedCountry.latitude,
-                longitude: selectedCountry.longitude,
-              }} />
-            </MapView>
-          </View>
-        )}
-        {allTags < 0 ? null : (
-          <View style={styles.padding}>
-            <Header>Tags</Header>
-            <TextDefault>{outputTags}</TextDefault>
-          </View>
-        )}
-      </View>
-      <Banner />
+      {pageContent}
     </ScrollView>
   );
 }
@@ -143,6 +191,9 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: '#000',
 
+  },
+  bold: {
+    fontWeight: 'bold'
   }
 })
 

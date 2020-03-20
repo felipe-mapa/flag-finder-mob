@@ -22,8 +22,8 @@ const FavoriteScreen = (props) => {
     dispatch(actions.loadFavs());
   }, [dispatch]);
 
-  const selectItemHandler = (id, title, mainColor) => {
-    props.navigation.navigate('Country', { id: id, title: title, mainColor: mainColor === '' ? Colors.primaryColorDark : mainColor })
+  const selectItemHandler = (id, slug, title, mainColor) => {
+    props.navigation.navigate('Country', { id: id, slug: slug, title: title, mainColor: mainColor === '' ? Colors.primaryColorDark : mainColor })
   }
 
   return (
@@ -33,7 +33,7 @@ const FavoriteScreen = (props) => {
         <CustomFlatList
           data={favoriteCountries}
           length={favoriteCountries.length}
-          onPress={(id, title, mainColor) => selectItemHandler(id, title, mainColor)}
+          onPress={(id, slug, title, mainColor) => selectItemHandler(id, slug, title, mainColor)}
         />
         :
         <EmptyPage navigation={props.navigation} page="Search" title="SEARCH A FLAG">

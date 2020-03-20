@@ -24,7 +24,7 @@ const customFlatList = props => {
                         columnWrapperStyle={styles.container}
                         renderItem={itemData => {
                             return (
-                                < TouchableOpacity onPress={() => props.onPress(itemData.item.id, itemData.item.name, itemData.item.mainColor)}>
+                                < TouchableOpacity onPress={() => props.onPress(itemData.item.id, itemData.item.slug, itemData.item.name, itemData.item.mainColor)}>
                                     <SingleCountry name={itemData.item.name} flag={itemData.item.flag} conNum={props.data.length} />
                                 </TouchableOpacity >
                             )

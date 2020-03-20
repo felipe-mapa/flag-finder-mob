@@ -9,13 +9,13 @@
       "ios",
       "android"
     ],
-    "version": "1.1.0",
+    "version": "1.1.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#83B5FF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,7 +25,7 @@
     ],
     "android": {
       "package": "com.pavanela.flag_finder",
-      "versionCode": 5,
+      "versionCode": 6,
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-7939975839235598~1795052343",
         "googleMaps": {

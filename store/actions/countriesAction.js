@@ -1,4 +1,5 @@
 import Country from '../../models/country'
+import BasicCountry from '../../models/basicCountry'
 import Tag from '../../models/tag'
 import Continent from '../../models/continent'
 import { Alert, BackHandler } from 'react-native';
@@ -6,6 +7,7 @@ import { Alert, BackHandler } from 'react-native';
 import { insertFav, deleteFav, fetchFavs } from '../../helpers/db'
 
 export const SET_COUNTRIES = 'SET_COUNTRIES'
+export const SET_COUNTRY = 'SET_COUNTRY'
 export const SET_TAGS = 'SET_TAGS'
 export const SET_CONTINENTS = 'SET_CONTINENTS'
 export const ADD_TAG = 'ADD_TAG'
@@ -65,21 +67,14 @@ export const fetchCountries = () => {
                     const conty = continents.filter(c => resData1[key].continents.includes(c.id))
                     const countryTags = resData1[key].countrytags.concat(resData1[key].title.rendered, conty[0].name)
                     loadedCountries.push(
-                        new Country(
+                        new BasicCountry(
                             resData1[key].id,
                             resData1[key].title.rendered,
                             resData1[key].flag.guid,
-                            resData1[key].capital,
                             resData1[key].continents,
-                            resData1[key].population,
-                            resData1[key].hdi,
-                            resData1[key].year,
-                            resData1[key].history,
-                            resData1[key].meaning,
                             resData1[key].maincolor,
-                            parseFloat(resData1[key].latitude),
-                            parseFloat(resData1[key].longitude),
-                            countryTags
+                            countryTags,
+                            resData1[key].slug
                         )
                     );
                 }
@@ -92,21 +87,14 @@ export const fetchCountries = () => {
                     const conty = continents.filter(c => resData2[key].continents.includes(c.id))
                     const countryTags = resData2[key].countrytags.concat(resData2[key].title.rendered, conty[0].name)
                     loadedCountries.push(
-                        new Country(
+                        new BasicCountry(
                             resData2[key].id,
                             resData2[key].title.rendered,
                             resData2[key].flag.guid,
-                            resData2[key].capital,
                             resData2[key].continents,
-                            resData2[key].population,
-                            resData2[key].hdi,
-                            resData2[key].year,
-                            resData2[key].history,
-                            resData2[key].meaning,
                             resData2[key].maincolor,
-                            parseFloat(resData2[key].latitude),
-                            parseFloat(resData2[key].longitude),
-                            countryTags
+                            countryTags,
+                            resData2[key].slug
                         )
                     );
                 }
@@ -119,22 +107,16 @@ export const fetchCountries = () => {
                     const conty = continents.filter(c => resData3[key].continents.includes(c.id))
                     const countryTags = resData3[key].countrytags.concat(resData3[key].title.rendered, conty[0].name)
                     loadedCountries.push(
-                        new Country(
+                        new BasicCountry(
                             resData3[key].id,
                             resData3[key].title.rendered,
                             resData3[key].flag.guid,
-                            resData3[key].capital,
                             resData3[key].continents,
-                            resData3[key].population,
-                            resData3[key].hdi,
-                            resData3[key].year,
-                            resData3[key].history,
-                            resData3[key].meaning,
                             resData3[key].maincolor,
-                            parseFloat(resData3[key].latitude),
-                            parseFloat(resData3[key].longitude),
-                            countryTags
+                            countryTags,
+                            resData3[key].slug
                         )
+                        
                     );
                 }
             } else {
@@ -145,6 +127,68 @@ export const fetchCountries = () => {
         } catch (err) {
             console.log('Network request failed on fetchCountries');
             { serverError }
+            throw err
+        }
+    }
+}
+
+export const fetchCountry = (countryName) => {
+    return async dispatch => {
+        try {
+            // Load continents for countries
+            const contiRoute = `http://felipepavanela78601.ipage.com/test/wp-json/wp/v2/continents/`;
+            const contiResponse = await fetch(contiRoute)
+
+            const contiResData = await contiResponse.json();
+            const continents = [];
+
+            if (contiResponse.ok) {
+                for (const key in contiResData) {
+                    continents.push(
+                        new Continent(
+                            contiResData[key].id,
+                            contiResData[key].name
+                        )
+                    );
+                }
+            }
+
+            // Load country
+            const route = `http://felipepavanela78601.ipage.com/test/wp-json/wp/v2/country/?slug=` + countryName;
+            const response = await fetch(route)
+
+            const resData = await response.json();
+            const loadedFullCountry = [];
+
+            if (response.ok) {
+                for (const key in resData) {
+                    const conty = continents.filter(c => resData[key].continents.includes(c.id))
+                    const countryTags = resData[key].countrytags.concat(resData[key].title.rendered, conty[0].name)
+                    loadedFullCountry.push(
+                        new Country(
+                            resData[key].id,
+                            resData[key].title.rendered,
+                            resData[key].flag.guid,
+                            resData[key].capital,
+                            resData[key].continents,
+                            resData[key].population,
+                            resData[key].hdi,
+                            resData[key].year,
+                            resData[key].meaning,
+                            resData[key].mainColor,
+                            parseFloat(resData[key].latitude),
+                            parseFloat(resData[key].longitude),
+                            countryTags,
+                            resData[key].slug
+                        )
+                    );
+                }
+            } else {
+                console.log('error on response');
+            }
+            dispatch({ type: SET_COUNTRY, country: loadedFullCountry });
+        } catch (err) {
+            console.log('Network request failed on fetchCountry');
             throw err
         }
     }

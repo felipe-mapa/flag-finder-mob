@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     View,
-    StyleSheet,
-    ScrollView
+    StyleSheet
 } from 'react-native';
 import { useSelector } from 'react-redux';
 
@@ -19,7 +18,7 @@ const SearchScreen = props => {
         <CustomFlatList
             data={filteredCountries}
             length={countries.length}
-            onPress={(id, title, mainColor) => props.onPressing(id, title, mainColor)}
+            onPress={(id, slug, title, mainColor) => props.onPressing(id, slug, title, mainColor)}
         />
     )
 
@@ -58,7 +57,7 @@ const SearchScreen = props => {
                     <CustomFlatList
                         data={filteredCountries}
                         length={countries.length}
-                        onPress={(id, title, mainColor) => props.onPressing(id, title, mainColor)}
+                        onPress={(id, slug, title, mainColor) => props.onPressing(id, slug, title, mainColor)}
                     />
                 )
             }

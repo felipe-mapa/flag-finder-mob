@@ -10,7 +10,7 @@ const infoScreen = () => {
     <View>
       <Banner />
       <View style={styles.screen}>
-        <TextDefault>Version: 1.1.0 </TextDefault>
+        <TextDefault>Version: 1.1.1 </TextDefault>
         <TextDefault>
           Development: <TextDefault style={styles.clickable} onPress={() => Linking.openURL('https://pavanela.com')}>pavanela.com</TextDefault>
         </TextDefault>
