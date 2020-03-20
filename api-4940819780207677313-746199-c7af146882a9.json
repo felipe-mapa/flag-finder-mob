@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "api-4940819780207677313-746199",
+  "private_key_id": "c7af146882a911a550becc1c50b31390ef68c9bc",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDCvwKDbxDsv94q\nVa9H77rQgzEe8TVtTGHW90NuipHrGZ0AeNlk7ZqwL4zugLOnDeEmzOvDQKQ6KidZ\nA2Rjsznb86Mms2eMlU4Mz2njdPWAXrjXW/Lc04pg1WViQ+mfOaM3xjiHZxhCsQBA\nzT79uMuAjQMTPgipB+DJjkrJpi2M9BXZ5k8CtnVMLfskXzwvaT9RKOBa/bSKc+JK\nb75g7bOVl1R1bK71gKY4UeIAQSDfELBMJwoyeErqSZIEXrER8Y5NQoyzgSucwrgH\ny6KeDkPyX3yhgxPcmZ5O1jjsODeSYBL90tpxeVsi8igy28eNIVyzgem3EcqO9aiq\n5dhNubtzAgMBAAECggEAUWy+tsiV6X8Re17nEitMT0lDHP5aSdAxaklpEstyVjuX\n1u4waxAjaL4A7Wm3c8YMWQY+Hx2kbMNaP0/5RexWaT4VfaVuSqvUfeutCNLKoPk5\nzKWfxi/WgEVJBgyCHjZhpXzF/usejCfohK+sQjZlM+MBoaaCxXXLSUqqv2QxUGi0\nhv1z3JrZUphj1AWknE6yqD3Cw5Du/4WPnXuLvhIbQFurnovEGo08NBRyr9lLb7P6\n+6qrbC9XKTewGC5ZDEiFqw8WDMSR3Tz3y7MCzE7N4Nk/VoN4TMsfUHePKhrwA6nH\nCnsIE5qrzzUIAvThNu0j1ZlQJ1M2Ymw1fIVaef5OLQKBgQDw60DHtMDpedme+DG7\n7iFZL4eWnWmz8jIwRN+OELlAOy88WmcUHaQupKuMYzhBR67KUgp93sFbdeybZYSI\nfRjn4isEYc5vPpxiSqc8mjoyqN0cStBNpieaa8HNBxxCUY1TIpXpzkDzH4tVu1Mi\nIWdCdFg+6xvbYRkqZtJOcipi/QKBgQDO79VSXnvy5zet2vfFTmiv3Z8mB7396MBj\ndIJdQ4+nfoj2I4BXXReaY4sj80akyhEJa9iqENL5S9+5N8H0WcSbJ7YHJUq6hQ2/\n6lfgQS9FwOWIIrCshwyKPwL94CDw756k5DE0iIfwtcMH9mbpzP+SQkqILANCbewd\nZT+hdop7LwKBgGVNNmcC3R8PSm9qw1bXUZRzxNqTBBBTJcFgJHRTGeIlQL5q8O7n\na9LlEPEuA0iHwLp39stob/tqQXwyGqFdoKxYUGg+TBRAyncWFu4Hl7MXiCnOV3pf\nBEYNS2dPtxU3v2oWn9y5ClxwhiEdbF5sl0O9MiH6sDL1yCQpKgMsRCBtAoGBAK7Z\niSbK/PI2Gh7FSNunL9+BZCrPGeLD2mNum4RQRL5itTk8sAGhgAMMnxGmSgeNUS3j\nuTOheZH5YTTv/usHOo9a03xgLy9Ao2iIiu3KRjYrEgagQSXWCmt5aH649Tx/S03K\nHiVkQ3DJM9yzfyuH8l5TswQyJCLqHDqORWCZd9MzAoGBALxQYtnWBZJMhGMYLTfb\nYOKRENxTZW10LFNATGk3jnkC8/Ldp6/RibqPUAM1DAzioYJLJoJQfx+irRFH0wLR\nL2Iu7GRxwaKUPfYfm3TkGWkdo2NVLbqlzAn6cdWAMCquaU7AU6IssaqbWP6mrjFN\nZJarD/RMqbuNavY3jGj/usD9\n-----END PRIVATE KEY-----\n",
+  "client_email": "google-play-console-account@api-4940819780207677313-746199.iam.gserviceaccount.com",
+  "client_id": "114646211722587673799",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/google-play-console-account%40api-4940819780207677313-746199.iam.gserviceaccount.com"
+}

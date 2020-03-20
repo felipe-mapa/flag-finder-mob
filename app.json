@@ -1,0 +1,48 @@
+{
+  "expo": {
+    "name": "Flag Finder",
+    "slug": "flag-finder",
+    "privacy": "public",
+    "primaryColor": "#0D006C",
+    "sdkVersion": "35.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.pavanela.flag_finder",
+      "versionCode": 5,
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-7939975839235598~1795052343",
+        "googleMaps": {
+          "apiKey": "AIzaSyDpKNRR5OQzWKQLA6251aTUusPXxBRs4aU"
+        }
+      },
+      "permissions": [
+        "CAMERA"
+      ]
+    },
+    "ios": {
+      "buildNumber": "1.0.1",
+      "supportsTablet": true,
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-7939975839235598~1795052343"
+      }
+    },
+    "description": "Flag Finder App. The best way to find out where that mysterious flag is from!"
+  }
+}
