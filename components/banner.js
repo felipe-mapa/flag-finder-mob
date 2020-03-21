@@ -12,7 +12,7 @@ const Banner = (props) => {
     }
 
     return (
-        <View style={{backgroundColor: 'transparent'}, showAd ? {} : { height: 0 }}>
+        <View style={{...props.style}, {backgroundColor: 'transparent'}, showAd ? {} : { height: 0 }}>
             <AdMobBanner
                 bannerSize="smartBannerPortrait"
                 adUnitID="ca-app-pub-7939975839235598/2411991834"

@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions } from 'react-native'
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs'
+import { createBottomTabNavigator, createTabNavigator } from 'react-navigation-tabs'
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import { Ionicons } from '@expo/vector-icons';
 
@@ -13,6 +13,9 @@ import ScanScreen from '../screens/ScanScreen'
 import QuizScreen from '../screens/QuizScreen'
 import DrawerScreen from '../screens/DrawerScreen'
 import FlagErrorScreen from '../screens/FlagErrorScreen'
+import GameScreen from '../screens/GameScreen'
+import ScoresScreen from '../screens/ScoresScreen'
+
 import Colors from '../components/layout/Colors'
 import ScanButton from '../components/layout/scanButton'
 
@@ -43,7 +46,7 @@ const CountryNavigator = createStackNavigator({
     Contact: FlagErrorScreen
 }, { defaultNavigationOptions: defaultStackNavOptions })
 
-//FAVORITES NAVIGATION
+// FAVORITES NAVIGATION
 const FavNavigator = createStackNavigator({
     Favorites: {
         screen: FavoritesScreen
@@ -51,6 +54,7 @@ const FavNavigator = createStackNavigator({
     Country: CountryInfoScreen
 })
 
+// QUIZ NAVIGATOR
 const QuizNavigator = createStackNavigator({
     Quiz: {
         screen: QuizScreen,
@@ -60,11 +64,21 @@ const QuizNavigator = createStackNavigator({
                 flex: 1
             },
         }
-    }
+    },
+    Game: GameScreen,
+    Scores: ScoresScreen
 })
 
 // BOTTOM TAB NAVIGATION
 const CountriesBottomNavigator = createBottomTabNavigator({
+    Quiz: {
+        screen: QuizNavigator,
+        navigationOptions: {
+            tabBarIcon: tabInfo => {
+                return <Ionicons name="logo-game-controller-b" size={25} color={tabInfo.tintColor} />
+            },
+        }
+    },
     Search: {
         screen: CountryNavigator,
         navigationOptions: {
@@ -89,14 +103,14 @@ const CountriesBottomNavigator = createBottomTabNavigator({
     //         tabBarIcon: <ScanButton />
     //     }
     // },
-    Quiz: {
-        screen: QuizNavigator,
-        navigationOptions: {
-            tabBarIcon: tabInfo => {
-                return <Ionicons name="logo-game-controller-b" size={25} color={tabInfo.tintColor} />
-            }
-        }
-    },
+    // Quiz: {
+    //     screen: QuizNavigator,
+    //     navigationOptions: {
+    //         tabBarIcon: tabInfo => {
+    //             return <Ionicons name="logo-game-controller-b" size={25} color={tabInfo.tintColor} />
+    //         }
+    //     }
+    // },
     More: {
         screen: QuizScreen,
         navigationOptions: ({ navigation }) => ({

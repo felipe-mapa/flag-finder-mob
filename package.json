@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "nodemailer": "^6.3.1",
     "react": "16.8.3",
+    "react-compound-timer": "^1.2.0",
     "react-devtools": "^3.6.3",
     "react-dom": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",

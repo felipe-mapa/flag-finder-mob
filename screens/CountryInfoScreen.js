@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, ScrollView, Dimensions, ActivityIndicator } fr
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps'
+import { Tooltip, Text } from 'react-native-elements';
 
 import TextDefault from '../components/layout/textDefault'
 import Header from '../components/layout/header'
@@ -20,7 +21,7 @@ const CountryInfoScreen = props => {
   const countryId = props.navigation.getParam('id')
 
   // SELECTORS
-  const selectedCountry = useSelector(state =>state.countries.loadedFullCountry.find(c => c.slug === countryName))
+  const selectedCountry = useSelector(state => state.countries.loadedFullCountry.find(c => c.slug === countryName))
   const allTags = useSelector(state => state.countries.loadedTags)
   const allContinents = useSelector(state => state.countries.loadedContinents)
   const fav = useSelector(state => state.countries.favoriteCountries)
@@ -75,31 +76,48 @@ const CountryInfoScreen = props => {
           <View style={styles.imageContainer}>
             <Image style={styles.image} source={{ uri: selectedCountry.flag }} />
           </View>
+
           {selectedCountry.year < 1 ? null :
             <TextDefault>
               <TextDefault style={styles.bold}>Effective since: </TextDefault>
               {selectedCountry.year}
             </TextDefault>}
+
           {selectedCountry.capital === '' ? null :
             <TextDefault>
               <TextDefault style={styles.bold}>Capital: </TextDefault>
               {selectedCountry.capital}
             </TextDefault>}
+
           {selectedCountry.continent === '' ? null :
             <TextDefault>
               <TextDefault style={styles.bold}>Continent: </TextDefault>
               {continent}
             </TextDefault>}
+
           {selectedCountry.population === '' ? null :
             <TextDefault>
               <TextDefault style={styles.bold}>Population: </TextDefault>
               {selectedCountry.population}
             </TextDefault>}
+
           {selectedCountry.hdi === '' ? null :
-            <TextDefault>
-              <TextDefault style={styles.bold}>HDI: </TextDefault>
-              {selectedCountry.hdi}
-            </TextDefault>}
+          <View style={{display: 'flex', flexDirection: 'row', bottom: 0}}>
+            <Tooltip 
+                withOverlay={false}
+                height={60}
+                width={ Dimensions.get("window").width * .9 }
+                backgroundColor={Colors.primaryColor}
+                popover={
+                  <Text>
+                    The Human Development Index is a statistic composite index of life expectancy, education, and per capita income indicators.
+                  </Text>
+                }>
+              <TextDefault style={{textDecorationLine: "underline", fontWeight: 'bold', fontSize: 16}}>HDI:</TextDefault>
+            </Tooltip>
+            <TextDefault> {selectedCountry.hdi}</TextDefault>
+          </View>}
+
           <View style={styles.padding}>
             {selectedCountry.meaning === '' ? null : (
               <View>
@@ -107,6 +125,7 @@ const CountryInfoScreen = props => {
                 <TextDefault>{selectedCountry.meaning}</TextDefault>
               </View>
             )}
+
           </View>
         </View>
         <Banner />
@@ -193,7 +212,7 @@ const styles = StyleSheet.create({
 
   },
   bold: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   }
 })
 
