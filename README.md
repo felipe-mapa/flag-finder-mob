@@ -3,7 +3,7 @@
     "version": 
     "versionCode": 
 
-2 - InfoScreen -> update version
+2 - DrawerScreen -> update version
 
 3 - npm run (leave it open while build app)
 

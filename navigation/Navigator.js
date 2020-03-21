@@ -1,18 +1,22 @@
 import React from 'react';
+import { Dimensions } from 'react-native'
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-//import { createDrawerNavigator } from 'react-navigation-drawer'
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { createDrawerNavigator } from 'react-navigation-drawer'
+import { Ionicons } from '@expo/vector-icons';
 
 import SearchScreen from '../screens/SearchScreen'
 import CountryInfoScreen from '../screens/CountryInfoScreen'
 import FavoritesScreen from '../screens/FavoritesScreen'
 import ScanScreen from '../screens/ScanScreen'
-import InfoScreen from '../screens/InfoScreen'
+import QuizScreen from '../screens/QuizScreen'
+import DrawerScreen from '../screens/DrawerScreen'
 import FlagErrorScreen from '../screens/FlagErrorScreen'
 import Colors from '../components/layout/Colors'
 import ScanButton from '../components/layout/scanButton'
+
+const screenWidth = Dimensions.get('screen').width;
 
 const defaultStackNavOptions = {
     headerStyle: {
@@ -47,22 +51,16 @@ const FavNavigator = createStackNavigator({
     Country: CountryInfoScreen
 })
 
-//ERROR NAVIGATION
-const ErrorNavigator = createStackNavigator({
-    Contact: {
-        screen: FlagErrorScreen,
+const QuizNavigator = createStackNavigator({
+    Quiz: {
+        screen: QuizScreen,
         navigationOptions: {
             headerTitleStyle: {
-              textAlign: "center",
-              flex: 1
+                textAlign: "center",
+                flex: 1
             },
         }
     }
-})
-
-//INFO NAVIGATION
-const InfoNavigator = createStackNavigator({
-    Info: InfoScreen
 })
 
 // BOTTOM TAB NAVIGATION
@@ -84,27 +82,29 @@ const CountriesBottomNavigator = createBottomTabNavigator({
             }
         }
     },
+    //TO CREATE
     // Scan: {
     //     screen: ScanScreen,
     //     navigationOptions: {
     //         tabBarIcon: <ScanButton />
     //     }
     // },
-    Contact: {
-        screen: ErrorNavigator,
+    Quiz: {
+        screen: QuizNavigator,
         navigationOptions: {
             tabBarIcon: tabInfo => {
-                return <FontAwesome name="flag-o" size={25} color={tabInfo.tintColor} />
+                return <Ionicons name="logo-game-controller-b" size={25} color={tabInfo.tintColor} />
             }
         }
     },
-    Info: {
-        screen: InfoNavigator,
-        navigationOptions: {
+    More: {
+        screen: QuizScreen,
+        navigationOptions: ({ navigation }) => ({
             tabBarIcon: tabInfo => {
-                return <Ionicons name="md-information-circle-outline" size={25} color={tabInfo.tintColor} />
-            }
-        }
+                return <Ionicons name="ios-more" size={25} color={tabInfo.tintColor} />
+            },
+            tabBarOnPress: () => { navigation.openDrawer() }
+        }),
     },
 }, {
     tabBarOptions: {
@@ -115,14 +115,16 @@ const CountriesBottomNavigator = createBottomTabNavigator({
     }
 })
 
-// const ReportFormNavigator = createStackNavigator({
-//     ReportForm: ReportFormScreen
-// })
+//DRAWER NAVIGATION
+const DrawerNavigator = createDrawerNavigator(
+    {
+        CountriesBottomNavigator,
+    },
+    {
+        drawerPosition: "right",
+        contentComponent: DrawerScreen,
+        drawerWidth: screenWidth / 2
+    }
+)
 
-// //DRAWER NAVIGATION
-// const DrawerNavigator = createDrawerNavigator({
-//     Search: CountriesBottomNavigator,
-//     ReportForm: ReportFormNavigator
-// })
-
-export default createAppContainer(CountriesBottomNavigator);
+export default createAppContainer(DrawerNavigator);

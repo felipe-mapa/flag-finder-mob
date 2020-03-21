@@ -38,24 +38,4 @@ const styles = StyleSheet.create({
   },
 })
 
-infoScreen.navigationOptions = () => {
-  return {
-    headerTitle: 'Information',
-    headerTintColor: 'white',
-    headerStyle: {
-      backgroundColor: Colors.primaryColorDark,
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        fontFamily: 'comfortaa-bold',
-        textAlign: "center",
-        flex: 1
-      },
-    },
-    headerTitleStyle: {
-      textAlign: "center",
-      flex: 1
-    },
-  }
-}
-
 export default infoScreen
