@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import FlashMessage from "react-native-flash-message";
 
 import countriesReducer from './store/reducers/countriesReducer';
+import quizReducer from './store/reducers/quizReducer';
 import Navigator from './navigation/Navigator'
 import { init } from './helpers/db'
 
@@ -15,7 +16,8 @@ init()
 
 //LOAD STORE
 const rootReducer = combineReducers({
-  countries: countriesReducer
+  countries: countriesReducer,
+  quiz: quizReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

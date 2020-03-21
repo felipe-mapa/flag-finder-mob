@@ -38,7 +38,7 @@ const FavoriteScreen = (props) => {
         :
         <EmptyPage navigation={props.navigation} page="Search" title="SEARCH A FLAG">
           You still don't have any flag added to Favorites. Start adding now.
-    </EmptyPage>
+        </EmptyPage>
       }
     </View>
   );
