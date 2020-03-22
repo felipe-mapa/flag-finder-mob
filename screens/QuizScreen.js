@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import { Button, Overlay } from 'react-native-elements'
 
 import Colors from '../components/layout/Colors'
 import Banner from '../components/banner'
 import TextDefault from '../components/layout/textDefault';
+import * as quizActions from '../store/actions/quizAction'
 
 const quizScreen = (props) => {
+    const [isOverlayVisible, setIsOverlayVisible] = useState(false)
+    const topScoresData = useSelector(state => state.quiz.topScores)
+    const dispatch = useDispatch()
+
     const startGameHandler = (selected) => {
         setIsOverlayVisible(false)
         props.navigation.navigate('Game', { numberOfQuestions: selected })
     }
-
-    const [isOverlayVisible, setIsOverlayVisible] = useState(false)
-    const topScoresData = useSelector(state => state.quiz.topScores)
 
     return (
         <View style={styles.screen}>

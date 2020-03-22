@@ -71,14 +71,6 @@ const QuizNavigator = createStackNavigator({
 
 // BOTTOM TAB NAVIGATION
 const CountriesBottomNavigator = createBottomTabNavigator({
-    Quiz: {
-        screen: QuizNavigator,
-        navigationOptions: {
-            tabBarIcon: tabInfo => {
-                return <Ionicons name="logo-game-controller-b" size={25} color={tabInfo.tintColor} />
-            },
-        }
-    },
     Search: {
         screen: CountryNavigator,
         navigationOptions: {
@@ -103,14 +95,14 @@ const CountriesBottomNavigator = createBottomTabNavigator({
     //         tabBarIcon: <ScanButton />
     //     }
     // },
-    // Quiz: {
-    //     screen: QuizNavigator,
-    //     navigationOptions: {
-    //         tabBarIcon: tabInfo => {
-    //             return <Ionicons name="logo-game-controller-b" size={25} color={tabInfo.tintColor} />
-    //         }
-    //     }
-    // },
+    Quiz: {
+        screen: QuizNavigator,
+        navigationOptions: {
+            tabBarIcon: tabInfo => {
+                return <Ionicons name="logo-game-controller-b" size={25} color={tabInfo.tintColor} />
+            },
+        }
+    },
     More: {
         screen: QuizScreen,
         navigationOptions: ({ navigation }) => ({
