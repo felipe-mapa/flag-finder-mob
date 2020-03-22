@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View, Image, FlatList, Dimensions, ActivityIndicator, ScrollView } from 'react-native';
+import { StyleSheet, View, Image, FlatList, Dimensions, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-native-elements'
 
 import Colors from '../components/layout/Colors'
+import CustomActivityIndicator from '../components/customActivityIndicator'
 
 const CountryInfoScreen = props => {
     // SELECTORS
@@ -72,7 +73,7 @@ const CountryInfoScreen = props => {
                         />
                     </View>
                 ) : (
-                        <ActivityIndicator size="large" color={Colors.primaryColorDark} />
+                        <CustomActivityIndicator/>
                     )}
                 <View style={styles.buttonContainer}>
                     <Button

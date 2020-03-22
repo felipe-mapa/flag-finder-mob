@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { StyleSheet, View, Alert, Platform, StatusBar, ActivityIndicator, Dimensions } from 'react-native'
+import { StyleSheet, View, Alert, Platform, StatusBar, Dimensions } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import { Overlay } from 'react-native-elements'
 import { Button } from 'react-native-elements'
@@ -9,6 +9,7 @@ import Colors from '../components/layout/Colors'
 import TextDefault from '../components/layout/textDefault';
 import * as quizActions from '../store/actions/quizAction'
 import GameDisplay from '../components/gameDisplay'
+import CustomActivityIndicator from '../components/customActivityIndicator'
 
 const GameScreen = (props) => {
   const [questionNumber, setQuestionNumber] = useState(0)
@@ -152,7 +153,7 @@ const GameScreen = (props) => {
         </TextDefault>
       </View>
       {!isGameOn
-        ? <ActivityIndicator size="large" color={Colors.primaryColorDark} />
+        ? <CustomActivityIndicator/>
         :
         <GameDisplay
           country={randomisedCountries[questionNumber]}

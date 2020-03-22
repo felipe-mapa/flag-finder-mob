@@ -3,7 +3,7 @@ import Score from '../../models/score'
 
 export const ADD_SCORE = 'ADD_SCORE'
 
-export const addScore = (id, userName, rightNum, totalNum, time) => {
+export const addScore = (id, userName, rightNum, totalNum, time, date) => {
     const score = [];
 
     score = (
@@ -12,7 +12,8 @@ export const addScore = (id, userName, rightNum, totalNum, time) => {
             userName,
             rightNum,
             totalNum,
-            time
+            time,
+            date
         )
     );
     return async dispatch => {

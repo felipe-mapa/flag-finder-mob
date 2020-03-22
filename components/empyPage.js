@@ -1,13 +1,9 @@
 import React from 'react';
 import {
-    Dimensions,
-    FlatList,
     View,
-    TouchableOpacity,
     StyleSheet,
-    ActivityIndicator
 } from 'react-native';
-import { Input, Button } from 'react-native-elements'
+import { Button } from 'react-native-elements'
 
 import DefaultText from '../components/layout/textDefault'
 import Colors from '../components/layout/Colors'

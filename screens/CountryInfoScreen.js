@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View, Image, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Image, ScrollView, Dimensions } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps'
@@ -12,6 +12,7 @@ import customMap from '../helpers/customMapStyle'
 import Banner from '../components/banner';
 import * as countriesActions from '../store/actions/countriesAction'
 import Colors from '../components/layout/Colors'
+import CustomActivityIndicator from '../components/customActivityIndicator'
 
 const CountryInfoScreen = props => {
   const [isLoading, setIsLoading] = useState(true)
@@ -40,7 +41,7 @@ const CountryInfoScreen = props => {
     setIsLoading(false)
   }, []);
 
-  let pageContent = (<ActivityIndicator size="large" color={Colors.primaryColorDark} />)
+  let pageContent = (<CustomActivityIndicator />)
   if (!isLoading) {
     // TAG
     const countryTags = allTags.map(tag => {
@@ -184,6 +185,7 @@ const CountryInfoScreen = props => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    height: '100%',
     backgroundColor: 'rgb(219, 219, 219)',
   },
   block: {

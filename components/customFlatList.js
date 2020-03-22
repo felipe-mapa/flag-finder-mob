@@ -4,12 +4,11 @@ import {
     FlatList,
     View,
     TouchableOpacity,
-    StyleSheet,
-    ActivityIndicator
+    StyleSheet
 } from 'react-native';
 
 import SingleCountry from '../components/singleCountry'
-import Colors from '../components/layout/Colors'
+import CustomActivityIndicator from '../components/customActivityIndicator'
 
 const customFlatList = props => {
     return (
@@ -32,7 +31,7 @@ const customFlatList = props => {
                         }
                     />
                 ) : (
-                        <ActivityIndicator size="large" color={Colors.primaryColorDark} />
+                        <CustomActivityIndicator/>
                     )}
             </View>
         </ScrollView>
@@ -41,7 +40,8 @@ const customFlatList = props => {
 
 const styles = StyleSheet.create({
     screen: {
-        flex: 1
+        flex: 1,
+        height: '100%',
     },
     container: {
         padding: 10,
