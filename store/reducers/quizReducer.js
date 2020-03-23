@@ -1,9 +1,11 @@
 import {
-    ADD_SCORE
+    ADD_SCORE,
+    SET_ID
 } from '../actions/quizAction';
 
 const initialState = {
     topScores: [],
+    timesPlayed: 0,
 };
 
 export default (state = initialState, action) => {
@@ -12,6 +14,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 topScores: state.topScores.concat(action.score)
+            }
+        case SET_ID:
+            return {
+                ...state,
+                timesPlayed: state.timesPlayed + 1
             }
         default:
             return state

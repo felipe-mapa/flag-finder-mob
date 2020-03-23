@@ -32,7 +32,7 @@ export const fetchCountries = () => {
     return async dispatch => {
         try {
             // Load continets for countries
-            const route = `http://felipepavanela78601.ipage.com/test/wp-json/wp/v2/continents/`;
+            const route = `http://flagfinderapp.com/wp-json/wp/v2/continents/`;
             const response = await fetch(route)
 
             const resData = await response.json();
@@ -50,9 +50,9 @@ export const fetchCountries = () => {
             }
 
             // Load countries
-            const route1 = `http://felipepavanela78601.ipage.com/test/wp-json/wp/v2/country/?per_page=100&page=1&order=asc&orderby=title`;
-            const route2 = `http://felipepavanela78601.ipage.com/test/wp-json/wp/v2/country/?per_page=100&page=2&order=asc&orderby=title`;
-            const route3 = `http://felipepavanela78601.ipage.com/test/wp-json/wp/v2/country/?per_page=100&page=3&order=asc&orderby=title`;
+            const route1 = `http://flagfinderapp.com/wp-json/wp/v2/country/?per_page=100&page=1&order=asc&orderby=title`;
+            const route2 = `http://flagfinderapp.com/wp-json/wp/v2/country/?per_page=100&page=2&order=asc&orderby=title`;
+            const route3 = `http://flagfinderapp.com/wp-json/wp/v2/country/?per_page=100&page=3&order=asc&orderby=title`;
             const response1 = await fetch(route1)
             const response2 = await fetch(route2)
             const response3 = await fetch(route3)
@@ -136,7 +136,7 @@ export const fetchCountry = (countryName) => {
     return async dispatch => {
         try {
             // Load continents for countries
-            const contiRoute = `http://felipepavanela78601.ipage.com/test/wp-json/wp/v2/continents/`;
+            const contiRoute = `http://flagfinderapp.com/wp-json/wp/v2/continents/`;
             const contiResponse = await fetch(contiRoute)
 
             const contiResData = await contiResponse.json();
@@ -154,7 +154,7 @@ export const fetchCountry = (countryName) => {
             }
 
             // Load country
-            const route = `http://felipepavanela78601.ipage.com/test/wp-json/wp/v2/country/?slug=` + countryName;
+            const route = `http://flagfinderapp.com/wp-json/wp/v2/country/?slug=` + countryName;
             const response = await fetch(route)
 
             const resData = await response.json();
@@ -197,8 +197,8 @@ export const fetchCountry = (countryName) => {
 export const fetchTags = () => {
     return async dispatch => {
         try {
-            const route1 = `http://felipepavanela78601.ipage.com/test/wp-json/wp/v2/countryTags/?per_page=100&page=1`;
-            const route2 = `http://felipepavanela78601.ipage.com/test/wp-json/wp/v2/countryTags/?per_page=100&page=2`;
+            const route1 = `http://flagfinderapp.com/wp-json/wp/v2/countryTags/?per_page=100&page=1`;
+            const route2 = `http://flagfinderapp.com/wp-json/wp/v2/countryTags/?per_page=100&page=2`;
             const response1 = await fetch(route1)
             const response2 = await fetch(route2)
 
@@ -248,7 +248,7 @@ export const fetchTags = () => {
 export const fetchContinents = () => {
     return async dispatch => {
         try {
-            const route = `http://felipepavanela78601.ipage.com/test/wp-json/wp/v2/continents/`;
+            const route = `http://flagfinderapp.com/wp-json/wp/v2/continents/`;
             const response = await fetch(route)
 
             const resData = await response.json();
