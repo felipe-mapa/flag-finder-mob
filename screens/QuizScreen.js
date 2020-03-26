@@ -63,9 +63,9 @@ const quizScreen = (props) => {
             </Overlay>
             <Banner />
             <TextDefault style={styles.desc}>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                veritatis et quasi architecto beatae.
+                Want to test your flag knowledge? Choose how many questions you want to play,
+                either 10, 20 or 30. You will be given a flag and choose one of 4 multi-choice
+                answers. Keep in mind - your score and time taken are recorded!
             </TextDefault>
             <View style={styles.buttonContainer}>
                 <Button

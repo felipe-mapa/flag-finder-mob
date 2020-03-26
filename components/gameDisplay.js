@@ -5,6 +5,7 @@ import { Button } from 'react-native-elements'
 
 import Colors from '../components/layout/Colors'
 import CustomActivityIndicator from '../components/customActivityIndicator'
+import Banner from './banner';
 
 const CountryInfoScreen = props => {
     // SELECTORS
@@ -88,6 +89,7 @@ const CountryInfoScreen = props => {
                     />
                 </View>
             </View>
+            <Banner />
         </ScrollView>
     );
 }

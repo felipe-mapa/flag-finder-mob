@@ -6,7 +6,7 @@ import { Entypo } from '@expo/vector-icons';
 import Colors from '../components/layout/Colors'
 
 const GameOverlay = props => {
-    const [playerName, setPlayerName] = useState('')
+    const [playerName, setPlayerName] = useState('Someone')
 
     const textChangeHandler = (name) => {
         setPlayerName(name)
@@ -16,40 +16,84 @@ const GameOverlay = props => {
         <View style={styles.screen}>
             <Overlay
                 isVisible={props.isVisible}
-                windowBackgroundColor="rgba(0, 0, 0, .5)"
                 overlayBackgroundColor="white"
-                width={props.isLastOverlay ? Dimensions.get('window').width * .7 : Dimensions.get('window').width * .6}
-                height={props.isLastOverlay ? Dimensions.get('window').height * .4 : Dimensions.get('window').height * .2}
+                borderRadius={8}
+                width={280}
+                height={props.isLastOverlay ? 210 : 125}
             >
                 <View style={styles.overlay}>
                     <View>
                         {props.overlayMessage}
-                        {props.isLastOverlay ?
-                            <Input
-                                placeholder=' Your name'
-                                onChangeText={textChangeHandler.bind(this)}
-                                leftIcon={
-                                    <Entypo
-                                        name='emoji-happy'
-                                        size={24}
-                                        color={Colors.primaryColorDark}
-                                    />
-                                }
+                        {!props.isLastOverlay ?
+                            <Button
+                                title={props.title}
+                                type="clear"
+                                onPress={() => props.submitHandler()}
+                                titleStyle={{
+                                    fontSize: 20,
+                                    color: Colors.primaryColorDark,
+                                    textAlign: 'right'
+                                }}
                             />
                             : null
                         }
-                        <Button
-                            title={props.isLastOverlay ? "Submit Score" : props.title}
-                            type="clear"
-                            onPress={props.isLastOverlay ? () => props.submitScore(playerName) : () => props.submitHandler()}
-                            buttonStyle={{
-                            }}
-                            titleStyle={{
-                                fontSize: 20,
-                                color: Colors.primaryColorDark,
-                                textAlign: 'right'
-                            }}
-                        />
+
+                        {props.isHighScore ?
+                            <View>
+                                <Input
+                                    placeholder=' Your name (max 15)'
+                                    onChangeText={textChangeHandler.bind(this)}
+                                    maxLength={15}
+                                    leftIcon={
+                                        <Entypo
+                                            name='emoji-happy'
+                                            size={24}
+                                            color={Colors.primaryColorDark}
+                                        />
+                                    }
+                                />
+                                <Button
+                                    title="Submit Score"
+                                    type="clear"
+                                    onPress={() => props.submitScore(playerName)}
+                                    titleStyle={{
+                                        fontSize: 20,
+                                        color: Colors.primaryColorDark,
+                                        textAlign: 'right'
+                                    }}
+                                />
+                            </View>
+                            : null
+                        }
+                        {!props.isHighScore & props.isLastOverlay ?
+                            <View>
+                                <Button
+                                    title="Play Again"
+                                    type="clear"
+                                    onPress={props.playAgain}
+                                    buttonStyle={{
+                                    }}
+                                    titleStyle={{
+                                        fontSize: 20,
+                                        color: Colors.primaryColorDark,
+                                        textAlign: 'right'
+                                    }}
+                                />
+                                <Button
+                                    title="Exit"
+                                    type="clear"
+                                    onPress={props.goToMenu}
+                                    buttonStyle={{
+                                    }}
+                                    titleStyle={{
+                                        fontSize: 20,
+                                        color: Colors.primaryColorDark,
+                                        textAlign: 'right'
+                                    }}
+                                />
+                            </View>
+                            : null
+                        }
                     </View>
                 </View>
             </Overlay>
@@ -61,8 +105,6 @@ const styles = StyleSheet.create({
     overlay: {
         flex: 1,
         height: '100%',
-        display: 'flex',
-        justifyContent: "space-between",
         padding: 10
     },
 })

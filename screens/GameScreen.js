@@ -19,7 +19,9 @@ const GameScreen = (props) => {
   const [isOverlayVisible, setIsOverlayVisible] = useState(false)
   const [overlayMessage, setOverlayMessage] = useState()
   const [randomisedCountries, setRandomisedCountries] = useState([])
-  const [date, setDate] = useState("Someone")
+  const [date, setDate] = useState()
+  const [isHighScore, setIsHighScore] = useState(false)
+
 
   const numberOfQuestions = props.navigation.state.params.numberOfQuestions
 
@@ -44,7 +46,7 @@ const GameScreen = (props) => {
       setIsGameOn(true)
       dispatch(quizActions.setId())
     }
-  }, [countries])
+  }, [countries, randomisedCountries < 1])
 
   // SET DATE
   const setDateHandler = () => {
@@ -52,14 +54,17 @@ const GameScreen = (props) => {
     var dd = today.getDate();
     var mm = today.getMonth() + 1;
 
-    var yyyy = today.getFullYear();
+    var yy = today.getYear();
     if (dd < 10) {
       dd = '0' + dd;
     }
     if (mm < 10) {
       mm = '0' + mm;
     }
-    var today = dd + '/' + mm + '/' + yyyy;
+    if (yy > 100) {
+      yy = yy - 100
+    }
+    var today = dd + '/' + mm + '/' + yy;
     setDate(today)
   }
 
@@ -78,7 +83,7 @@ const GameScreen = (props) => {
 
   // EXIT
   const exitHandler = () => {
-    if(isLastOverlay){
+    if (isLastOverlay) {
       //props.navigation.goBack()
     } else {
       setIsGameOn(false)
@@ -124,11 +129,59 @@ const GameScreen = (props) => {
     setQuestionNumber(questionNumber + 1)
   }
 
+  // CHECK IF SCORE IS TOP 10
+  const checkIfTopTen = () => {
+    const topScores = scores.map(c => c.totalNum === numberOfQuestions ? c : null).filter(el => el != null)
+    var isTopTen
+    // CHECK IF SCORE IS 0
+    if (numberOfCorrectAnswers < 1) {
+      isTopTen = false
+    } else {
+      // CHECK IF THERE IS 10 POSITIONS TAKEN
+      if (topScores.length < 10) {
+        isTopTen = true
+      } else {
+        isTopTen = topScores.find(c => {
+          // check if number is higher
+          if (numberOfCorrectAnswers > c.totalScore) {
+            return true
+          } else {
+            // Check for time
+            if (numberOfCorrectAnswers === c.totalScore && seconds < c.time) {
+              return true
+            } else {
+              return false
+            }
+          }
+        })
+        if (isTopTen) {
+          const topScoresNumberScore = topScores.map(s => s.totalScore)
+          const lowestScore = Math.min(...topScoresNumberScore)
+          const lowestScoresPlayers = topScores.map(s => s.totalScore === lowestScore ? s : null).filter(el => el != null)
+          let playerIdToDelete
+          if (lowestScoresPlayers.length === 1) {
+            playerIdToDelete = lowestScoresPlayers[0].id
+          } else {
+            const topScoresNumberSeconds = lowestScoresPlayers.map(s => s.time)
+            const highestTime = Math.max(...topScoresNumberSeconds)
+            const highestTimePlayers = lowestScoresPlayers.map(s => s.time === highestTime ? s : null).filter(el => el != null)
+            playerIdToDelete = highestTimePlayers[0].id
+          }
+          dispatch(quizActions.delScore(playerIdToDelete))
+        }
+
+      }
+    }
+
+
+    submitGameHandler(isTopTen)
+  }
+
   // SUBMIT GAME
-  const submitGameHandler = () => {
+  const submitGameHandler = (isTopTen) => {
     setIsLastOverlay(true)
     // Check if score is top 10 from their number of questions (10/20/30)
-    if (true) {
+    if (isTopTen) {
       setOverlayMessage(
         <View>
           <TextDefault>
@@ -139,15 +192,16 @@ const GameScreen = (props) => {
           </TextDefault>
         </View>
       )
+      setIsHighScore(true)
     } else {
       setOverlayMessage(
         <View>
-        <TextDefault>
-          Number of correct answers: {numberOfCorrectAnswers}/{numberOfQuestions} in {seconds} seconds!
+          <TextDefault>
+            Number of right answers: {numberOfCorrectAnswers}/{numberOfQuestions} in {seconds} seconds!
         </TextDefault>
-        <TextDefault>
-          Sorry, you couldn't make into the top 10. Try again.
-      </TextDefault>
+          <TextDefault>
+            Sorry, you couldn't make into the top 10. Try again.
+        </TextDefault>
         </View>
       )
 
@@ -156,15 +210,11 @@ const GameScreen = (props) => {
 
   // SUBMIT SCORE
   const submitScore = (playerName) => {
-    // console.log(playerId, playerName, numberOfCorrectAnswers, numberOfQuestions, seconds, date);
-    //id, userName, rightNum, totalNum, time, date
+    //id, userName, totalScore, totalNum, time, date
     dispatch(quizActions.addScore(playerId, playerName, numberOfCorrectAnswers, numberOfQuestions, seconds, date))
     setIsOverlayVisible(false)
-    props.navigation.navigate('Quiz')
+    goToMenu()
   }
-  useEffect(() => {
-    console.log(scores);
-  }, [scores])
 
   // PLAY AGAIN
   const playAgainHandler = () => {
@@ -175,18 +225,26 @@ const GameScreen = (props) => {
     setIsOverlayVisible(false)
     setQuestionNumber(0)
     setIsGameOn(true)
+    setIsHighScore(false)
   }
-  
+
+  // GO TO MENU
+  const goToMenu = () => {
+    props.navigation.navigate('Quiz')
+  }
+
   return (
     <View style={styles.screen}>
       <GameOverlay
         isVisible={isOverlayVisible}
         overlayMessage={overlayMessage}
         isLastOverlay={isLastOverlay}
-        // isLastOverlay={true}
         title={(questionNumber + 1) === numberOfQuestions ? "See Score" : "Next Question"}
-        submitHandler={(questionNumber + 1) === numberOfQuestions ? () => submitGameHandler() : () => submitAnswerHandler()}
+        submitHandler={(questionNumber + 1) === numberOfQuestions ? () => checkIfTopTen() : () => submitAnswerHandler()}
         submitScore={(playerName) => submitScore(playerName)}
+        isHighScore={isHighScore}
+        playAgain={() => playAgainHandler()}
+        goToMenu={() => goToMenu()}
       />
       <View style={styles.topBar}>
         <AntDesign name="arrowleft" size={30} color="#fff" onPress={() => exitHandler()} />
@@ -197,13 +255,13 @@ const GameScreen = (props) => {
           {seconds} seconds
         </TextDefault>
       </View>
-      { randomisedCountries < 1
+      {randomisedCountries < 1
         ? <CustomActivityIndicator />
         :
-      <GameDisplay
-        country={randomisedCountries[questionNumber]}
-        submitAnswer={(selectedCountry, rightAnswer) => checkAnswerHandler(selectedCountry, rightAnswer)}
-      />
+        <GameDisplay
+          country={randomisedCountries[questionNumber]}
+          submitAnswer={(selectedCountry, rightAnswer) => checkAnswerHandler(selectedCountry, rightAnswer)}
+        />
       }
     </View>
   );
@@ -217,6 +275,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingHorizontal: 10,
     height: StatusBar.currentHeight * 2.5,
     display: 'flex',
     flexDirection: 'row',

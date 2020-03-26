@@ -110,7 +110,7 @@ const CountryInfoScreen = props => {
                 width={ Dimensions.get("window").width * .9 }
                 backgroundColor={Colors.primaryColor}
                 popover={
-                  <Text>
+                  <Text style={{color: "#fff", textAlign: "justify"}}>
                     The Human Development Index is a statistic composite index of life expectancy, education, and per capita income indicators.
                   </Text>
                 }>
