@@ -74,7 +74,7 @@ const CountryInfoScreen = props => {
                         />
                     </View>
                 ) : (
-                        <CustomActivityIndicator/>
+                        <CustomActivityIndicator />
                     )}
                 <View style={styles.buttonContainer}>
                     <Button
@@ -83,13 +83,14 @@ const CountryInfoScreen = props => {
                         onPress={() => submitAnswerHandler()}
                         buttonStyle={{
                             backgroundColor: Colors.primaryColor,
+                            marginBottom: 20
                         }}
-                        disabled={ countryPressed === '' ? true : false }
+                        disabled={countryPressed === '' ? true : false}
                         titleStyle={{ fontSize: 18 }}
                     />
+                    <Banner />
                 </View>
             </View>
-            <Banner />
         </ScrollView>
     );
 }

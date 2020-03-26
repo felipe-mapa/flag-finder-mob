@@ -33,7 +33,7 @@ const DrawerScreen = (props) => {
                 </TextDefault> */}
                 <TextDefault style={styles.textBottom}>
                     <TextDefault style={styles.textBottomWhite}>Version: </TextDefault>
-                    1.1.1
+                    2.0.0
                 </TextDefault>
             </View>
         </SafeAreaView>
