@@ -28,8 +28,8 @@ const FlagErrorScreen = () => {
 
   const submitHandler = () => {
     MailComposer.composeAsync({
-      recipients: ['felipe@pavanela.com'],
-      subject: 'New message from the App Flag Finder',
+      recipients: ['contact@flagfinderapp.com'],
+      subject: 'New message from Flag Finder Mobile App',
       body: messageToSend,
       isHtml: false,
       attachments: image
