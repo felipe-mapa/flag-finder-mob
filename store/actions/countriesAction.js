@@ -314,8 +314,8 @@ export const delFavorite = (id) => {
 export const loadFavs = () => {
     return async dispatch => {
         try {
-            const dbResult = await fetchFavs();
-            dispatch({ type: SET_FAV, favorites: dbResult.rows._array });
+            const dbFavsResult = await fetchFavs();
+            dispatch({ type: SET_FAV, favorites: dbFavsResult.rows._array });
         } catch (err) {
             throw err;
         }

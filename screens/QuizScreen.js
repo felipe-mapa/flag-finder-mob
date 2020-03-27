@@ -13,6 +13,11 @@ const quizScreen = (props) => {
     const topScoresData = useSelector(state => state.quiz.topScores)
     const dispatch = useDispatch()
 
+    // FAVORITE
+    useEffect(() => {
+        dispatch(quizActions.loadScores());
+    }, [dispatch]);
+
     const startGameHandler = (selected) => {
         setIsOverlayVisible(false)
         props.navigation.navigate('Game', { numberOfQuestions: selected })

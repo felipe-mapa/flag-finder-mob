@@ -1,4 +1,5 @@
 import {
+    SET_SCORES,
     ADD_SCORE,
     DEL_SCORE,
     SET_ID
@@ -11,6 +12,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case SET_SCORES:
+            return {
+                ...state,
+                topScores: action.scores.map(score => score)
+            }
         case ADD_SCORE:
             return {
                 ...state,

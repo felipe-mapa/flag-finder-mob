@@ -11,7 +11,7 @@ import GameDisplay from '../components/gameDisplay'
 import GameOverlay from '../components/gameOverlay';
 
 const GameScreen = (props) => {
-  const [questionNumber, setQuestionNumber] = useState(0)
+  const [questionNumber, setQuestionNumber] = useState(9)
   const [isGameOn, setIsGameOn] = useState(false)
   const [seconds, setSeconds] = useState(0);
   const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState(0)
