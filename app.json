@@ -9,7 +9,7 @@
       "ios",
       "android"
     ],
-    "version": "2.0.0",
+    "version": "2.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -25,7 +25,7 @@
     ],
     "android": {
       "package": "com.pavanela.flag_finder",
-      "versionCode": 7,
+      "versionCode": 8,
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-7939975839235598~1795052343",
         "googleMaps": {

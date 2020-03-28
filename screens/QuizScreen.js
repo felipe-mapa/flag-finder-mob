@@ -13,7 +13,7 @@ const quizScreen = (props) => {
     const topScoresData = useSelector(state => state.quiz.topScores)
     const dispatch = useDispatch()
 
-    // FAVORITE
+    // SCORES
     useEffect(() => {
         dispatch(quizActions.loadScores());
     }, [dispatch]);
