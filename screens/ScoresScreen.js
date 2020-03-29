@@ -79,7 +79,7 @@ const ScoresScreen = (props) => {
 
       <FlatList
         data={flatListData}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => item.playerId}
         numColumns={1}
         ListHeaderComponent={
           <View style={styles.header}>

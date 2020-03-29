@@ -82,8 +82,8 @@ export const initScore = () => {
   const promise = new Promise((resolve, reject) => {
     scoresDB.transaction(tx => {
       tx.executeSql(
-        //'DROP TABLE IF EXISTS table_scores;',
-        'CREATE TABLE IF NOT EXISTS table_scores (id INTEGER PRIMARY KEY NOT NULL, userId INTEGER NOT NULL UNIQUE, userName VARCHAR(255), totalScore INTEGER, totalNum INTEGER, time INTEGER, date VARCHAR(255));',
+        // 'DROP TABLE IF EXISTS table_scores;',
+        'CREATE TABLE IF NOT EXISTS table_scores (id INTEGER PRIMARY KEY NOT NULL, playerId INTEGER NOT NULL UNIQUE, userName VARCHAR(255), totalScore INTEGER, totalNum INTEGER, time INTEGER, date VARCHAR(255));',
         [],
         () => {
           resolve();
@@ -115,12 +115,12 @@ export const fetchScores = () => {
     return promise;
 };
 
-export const insertScore = (userId, userName, totalScore, totalNum, time, date) => {
+export const insertScore = (playerId, userName, totalScore, totalNum, time, date) => {
   const promise = new Promise((resolve, reject) => {
       scoresDB.transaction(tx => {
           tx.executeSql(
-              `INSERT INTO table_scores (userId, userName, totalScore, totalNum, time, date) VALUES (?,?,?,?,?,?);`,
-              [userId, userName, totalScore, totalNum, time, date],
+              `INSERT INTO table_scores (playerId, userName, totalScore, totalNum, time, date) VALUES (?,?,?,?,?,?);`,
+              [playerId, userName, totalScore, totalNum, time, date],
               (_, result) => {
                   resolve(result)
               },
@@ -133,12 +133,12 @@ export const insertScore = (userId, userName, totalScore, totalNum, time, date) 
   return promise
 }
 
-export const deleteScore = (userId) => {
+export const deleteScore = (playerId) => {
   const promise = new Promise((resolve, reject) => {
       scoresDB.transaction(tx => {
           tx.executeSql(
-              `DELETE FROM table_scores WHERE userId = ?;`,
-              [userId],
+              `DELETE FROM table_scores WHERE playerId = ?;`,
+              [playerId],
               (_, result) => {
                   resolve(result)
               },

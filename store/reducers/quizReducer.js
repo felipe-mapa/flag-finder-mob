@@ -1,13 +1,11 @@
 import {
     SET_SCORES,
     ADD_SCORE,
-    DEL_SCORE,
-    SET_ID
+    DEL_SCORE
 } from '../actions/quizAction';
 
 const initialState = {
     topScores: [],
-    timesPlayed: 0,
 };
 
 export default (state = initialState, action) => {
@@ -25,12 +23,7 @@ export default (state = initialState, action) => {
         case DEL_SCORE:
             return {
                 ...state,
-                topScores: state.topScores.filter(item => item.id !== action.id)
-            }
-        case SET_ID:
-            return {
-                ...state,
-                timesPlayed: state.timesPlayed + 1
+                topScores: state.topScores.filter(item => item.playerId !== action.playerId)
             }
         default:
             return state

@@ -45,7 +45,7 @@ const CountryInfoScreen = props => {
         <ScrollView style={styles.container}>
             <View style={styles.block}>
                 <View style={styles.imageContainer}>
-                    <Image style={styles.image} source={{ uri: selectedCountry.flag }} />
+                    <Image onLoadStart={() => props.isLoading}  onLoadEnd={() => props.isLoaded} style={styles.image} source={{ uri: selectedCountry.flag }} />
                 </View>
                 {countryOptions.length > 0 ? (
                     <View style={styles.buttonGroupContainer}>

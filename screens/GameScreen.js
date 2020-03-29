@@ -21,13 +21,13 @@ const GameScreen = (props) => {
   const [randomisedCountries, setRandomisedCountries] = useState([])
   const [date, setDate] = useState()
   const [isHighScore, setIsHighScore] = useState(false)
+  const [playerId, setPlayerId] = useState()
 
 
   const numberOfQuestions = props.navigation.state.params.numberOfQuestions
 
   // useSelector
   const countries = useSelector(state => state.countries.loadedCountries)
-  const playerId = useSelector(state => state.quiz.timesPlayed)
   const scores = useSelector(state => state.quiz.topScores)
   const dispatch = useDispatch();
 
@@ -44,9 +44,17 @@ const GameScreen = (props) => {
       setDateHandler()
       setRandomisedCountries(countryList)
       setIsGameOn(true)
-      dispatch(quizActions.setId())
+      createPlayerID()
     }
   }, [countries, randomisedCountries < 1])
+
+  // CREATE PLAYER ID
+  const createPlayerID = () => {
+    var S4 = function () {
+      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    };
+    return setPlayerId(S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+  }
 
   // SET DATE
   const setDateHandler = () => {
@@ -160,12 +168,12 @@ const GameScreen = (props) => {
           const lowestScoresPlayers = topScores.map(s => s.totalScore === lowestScore ? s : null).filter(el => el != null)
           let playerIdToDelete
           if (lowestScoresPlayers.length === 1) {
-            playerIdToDelete = lowestScoresPlayers[0].id
+            playerIdToDelete = lowestScoresPlayers[0].playerId
           } else {
             const topScoresNumberSeconds = lowestScoresPlayers.map(s => s.time)
             const highestTime = Math.max(...topScoresNumberSeconds)
             const highestTimePlayers = lowestScoresPlayers.map(s => s.time === highestTime ? s : null).filter(el => el != null)
-            playerIdToDelete = highestTimePlayers[0].id
+            playerIdToDelete = highestTimePlayers[0].playerId
           }
           dispatch(quizActions.delScore(playerIdToDelete))
         }
@@ -259,6 +267,8 @@ const GameScreen = (props) => {
         ? <CustomActivityIndicator />
         :
         <GameDisplay
+          isLoading={() => setIsGameOn(false)}
+          isLoaded={() => setIsGameOn(true)}
           country={randomisedCountries[questionNumber]}
           submitAnswer={(selectedCountry, rightAnswer) => checkAnswerHandler(selectedCountry, rightAnswer)}
         />

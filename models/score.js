@@ -1,6 +1,6 @@
 class Score {
-    constructor(id, userName, totalScore, totalNum, time, date) {
-        this.id = id;
+    constructor(playerId, userName, totalScore, totalNum, time, date) {
+        this.playerId = playerId;
         this.userName = userName;
         this.totalScore = totalScore;
         this.totalNum = totalNum;

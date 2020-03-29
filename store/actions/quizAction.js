@@ -6,17 +6,6 @@ import { insertScore, deleteScore, fetchScores } from '../../helpers/db'
 export const SET_SCORES = 'SET_SCORES'
 export const ADD_SCORE = 'ADD_SCORE'
 export const DEL_SCORE = 'DEL_SCORE'
-export const SET_ID = 'SET_ID'
-
-export const setId = () => {
-    return async dispatch => {
-        try {
-            dispatch({ type: SET_ID })
-        } catch (err) {
-            throw err
-        }
-    }
-}
 
 export const loadScores = () => {
     return async dispatch => {
@@ -53,11 +42,11 @@ export const addScore = (id, userName, totalScore, totalNum, time, date) => {
 
 }
 
-export const delScore = (id) => {
+export const delScore = (playerId) => {
     return async dispatch => {
         try {
-            await deleteScore(id)
-            dispatch({ type: DEL_SCORE, id: id })
+            await deleteScore(playerId)
+            dispatch({ type: DEL_SCORE, playerId: playerId })
         } catch (err) {
             throw err
         }
