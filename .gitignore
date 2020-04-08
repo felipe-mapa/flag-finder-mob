@@ -7,7 +7,11 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
+README-PRIVATE.md
 web-build/
 web-report/
 z-editable-assets/
 node_modules
+api-4940819780207677313-746199-c7af146882a9.json
+app.json
+google-services.json

@@ -23,6 +23,7 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
+//FETCH FONT
 const fetchFonts = () => {
   return Font.loadAsync({
     'comfortaa': require('./assets/fonts/Comfortaa-Regular.ttf'),

@@ -9,7 +9,6 @@ import { Ionicons } from '@expo/vector-icons';
 import SearchScreen from '../screens/SearchScreen'
 import CountryInfoScreen from '../screens/CountryInfoScreen'
 import FavoritesScreen from '../screens/FavoritesScreen'
-import ScanScreen from '../screens/ScanScreen'
 import QuizScreen from '../screens/QuizScreen'
 import DrawerScreen from '../screens/DrawerScreen'
 import FlagErrorScreen from '../screens/FlagErrorScreen'
@@ -17,7 +16,6 @@ import GameScreen from '../screens/GameScreen'
 import ScoresScreen from '../screens/ScoresScreen'
 
 import Colors from '../components/layout/Colors'
-import ScanButton from '../components/layout/scanButton'
 
 const screenWidth = Dimensions.get('screen').width;
 
@@ -88,13 +86,6 @@ const CountriesBottomNavigator = createBottomTabNavigator({
             }
         }
     },
-    //TO CREATE
-    // Scan: {
-    //     screen: ScanScreen,
-    //     navigationOptions: {
-    //         tabBarIcon: <ScanButton />
-    //     }
-    // },
     Quiz: {
         screen: QuizNavigator,
         navigationOptions: {
