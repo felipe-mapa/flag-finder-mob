@@ -5,7 +5,7 @@ import {
   View,
 } from 'react-native'
 
-import Colors from '../components/layout/Colors'
+import Colors from './layout/Colors'
 
 const CustomActivityIndicator = () => {
     return (

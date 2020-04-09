@@ -4,11 +4,11 @@ import { StyleSheet, View, Alert, Platform, StatusBar } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 
 import Colors from '../components/layout/Colors'
-import TextDefault from '../components/layout/textDefault';
-import CustomActivityIndicator from '../components/customActivityIndicator'
+import TextDefault from '../components/layout/TextDefault';
+import CustomActivityIndicator from '../components/CustomActivityIndicator'
 import * as quizActions from '../store/actions/quizAction'
-import GameDisplay from '../components/gameDisplay'
-import GameOverlay from '../components/gameOverlay';
+import GameDisplay from '../containers/GameDisplay'
+import GameOverlay from '../components/GameOverlay';
 
 const GameScreen = (props) => {
   const [questionNumber, setQuestionNumber] = useState(0)
@@ -22,7 +22,6 @@ const GameScreen = (props) => {
   const [date, setDate] = useState()
   const [isHighScore, setIsHighScore] = useState(false)
   const [playerId, setPlayerId] = useState()
-
 
   const numberOfQuestions = props.navigation.state.params.numberOfQuestions
 

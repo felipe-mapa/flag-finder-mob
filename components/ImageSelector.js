@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, Alert, TouchableHighlight } from 'react-native'
-import { Input, Button } from 'react-native-elements'
+import { View, StyleSheet, Image, Alert, TouchableHighlight } from 'react-native'
+import { Button } from 'react-native-elements'
 import * as ImagePicker from 'expo-image-picker'
 import * as Permissions from 'expo-permissions'
 import Swipeable from 'react-native-swipeable-row';
 
-import Colors from '../components/layout/Colors'
+import Colors from './layout/Colors'
 import { MaterialIcons } from '@expo/vector-icons';
 
 const ImageSelector = props => {

@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 
-import CountriesDisplay from '../components/countriesDisplay';
-import SearchContainer from '../components/searchContainer';
+import CountriesDisplay from '../containers/CountriesDisplay';
+import SearchContainer from '../containers/SearchContainer';
 import Colors from '../components/layout/Colors'
 import { useDispatch } from 'react-redux';
-import Banner from '../components/banner';
+import Banner from '../components/Banner';
 
 import * as countriesActions from '../store/actions/countriesAction';
 
 const SearchScreen = (props) => {
+    // SEND PROPS ON NAVIGATION
     const selectItemHandler = (id, slug, title, mainColor) => {
         props.navigation.navigate('Country', { id: id, slug: slug, title: title, mainColor: mainColor === '' ? Colors.primaryColorDark : mainColor })
     }
@@ -18,7 +19,6 @@ const SearchScreen = (props) => {
     const dispatch = useDispatch();
 
     // LOAD FAVORITES
-    // FAVORITE
     useEffect(() => {
         dispatch(countriesActions.loadFavs());
     }, [dispatch]);

@@ -4,8 +4,8 @@ import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import { Button, Overlay } from 'react-native-elements'
 
 import Colors from '../components/layout/Colors'
-import Banner from '../components/banner'
-import TextDefault from '../components/layout/textDefault';
+import Banner from '../components/Banner'
+import TextDefault from '../components/layout/TextDefault';
 import * as quizActions from '../store/actions/quizAction'
 
 const quizScreen = (props) => {
@@ -13,11 +13,12 @@ const quizScreen = (props) => {
     const topScoresData = useSelector(state => state.quiz.topScores)
     const dispatch = useDispatch()
 
-    // SCORES
+    // LOAD SCORES
     useEffect(() => {
         dispatch(quizActions.loadScores());
     }, [dispatch]);
 
+    // LOAD GAME HANDLER
     const startGameHandler = (selected) => {
         setIsOverlayVisible(false)
         props.navigation.navigate('Game', { numberOfQuestions: selected })

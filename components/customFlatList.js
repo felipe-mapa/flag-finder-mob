@@ -7,8 +7,8 @@ import {
     StyleSheet
 } from 'react-native';
 
-import SingleCountry from '../components/singleCountry'
-import CustomActivityIndicator from '../components/customActivityIndicator'
+import SingleCountry from '../containers/singleCountry'
+import CustomActivityIndicator from './CustomActivityIndicator'
 
 const customFlatList = props => {
     return (

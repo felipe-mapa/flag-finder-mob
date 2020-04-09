@@ -4,7 +4,7 @@ import Tag from '../../models/tag'
 import Continent from '../../models/continent'
 import { Alert, BackHandler } from 'react-native';
 
-import { insertFav, deleteFav, fetchFavs } from '../../helpers/db'
+import { insertFav, deleteFav, fetchFavs } from '../database/db'
 
 export const SET_COUNTRIES = 'SET_COUNTRIES'
 export const SET_COUNTRY = 'SET_COUNTRY'

@@ -6,9 +6,9 @@ import { showMessage } from "react-native-flash-message";
 import * as MailComposer from 'expo-mail-composer';
 
 import Colors from '../components/layout/Colors'
-import TextDefault from '../components/layout/textDefault'
+import TextDefault from '../components/layout/TextDefault'
 import ImageSelector from '../components/ImageSelector'
-import Banner from '../components/banner';
+import Banner from '../components/Banner';
 
 const FlagErrorScreen = () => {
   const [messageToSend, setMessage] = useState('')
@@ -35,15 +35,15 @@ const FlagErrorScreen = () => {
       attachments: image
     }).then(s => {
       if (s.status === 'sent') {
-        // showMessage({
-        //   message: "Message sent successfully",
-        //   type: "success",
-        // });
-        // setMessage('')
-        // setImage([])
+        showMessage({
+          message: "Redirected successfully.",
+          type: "success",
+        });
+        setMessage('')
+        setImage([])
       } else {
         showMessage({
-          message: "Sorry, something went wrong",
+          message: "Sorry, something went wrong.",
           type: "danger",
         });
       }

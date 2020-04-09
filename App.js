@@ -9,7 +9,7 @@ import FlashMessage from "react-native-flash-message";
 import countriesReducer from './store/reducers/countriesReducer';
 import quizReducer from './store/reducers/quizReducer';
 import Navigator from './navigation/Navigator'
-import { initFav, initScore } from './helpers/db'
+import { initFav, initScore } from './store/database/db'
 
 // LOAD DATABASE
 initFav()

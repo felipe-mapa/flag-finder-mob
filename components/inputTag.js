@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
 
-import Colors from '../components/layout/Colors'
+import Colors from './layout/Colors'
 
 const InputTag = props => {
 
@@ -20,8 +20,6 @@ const InputTag = props => {
         returnKeyType='search'
         blurOnSubmit={false}
         editable={props.loaded ? true : false}
-        //inlineImageLeft={search_icon.toString}
-        //inlineImagePadding={2}
       />
       <Ionicons style={styles.icon} onPress={props.submitted} name="md-search" size={24} color={props.loaded ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.3)"}/>
     </View>

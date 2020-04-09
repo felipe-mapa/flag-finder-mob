@@ -5,11 +5,11 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import CustomFlatList from '../components/customFlatList'
-import EmptyPage from '../components/empyPage'
+import CustomFlatList from '../components/CustomFlatList'
+import EmptyPage from '../components/EmpyPage'
 
 
-const SearchScreen = props => {
+const CountriesDisplay = props => {
     const countries = useSelector(state => state.countries.loadedCountries);
     const tags = useSelector(state => state.countries.tagsFilter);
 
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default SearchScreen;
+export default CountriesDisplay;

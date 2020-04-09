@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native'
 
-const Header = (props) => {
+const SubHeading = (props) => {
     return <Text style={styles.heading}>{props.children}</Text>
 }
 
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Header;
+export default SubHeading;

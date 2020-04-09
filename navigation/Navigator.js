@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions } from 'react-native'
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
-import { createBottomTabNavigator, createTabNavigator } from 'react-navigation-tabs'
+import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import { Ionicons } from '@expo/vector-icons';
 
@@ -52,7 +52,7 @@ const FavNavigator = createStackNavigator({
     Country: CountryInfoScreen
 })
 
-// QUIZ NAVIGATOR
+// QUIZ NAVIGATION
 const QuizNavigator = createStackNavigator({
     Quiz: {
         screen: QuizScreen,
@@ -67,7 +67,7 @@ const QuizNavigator = createStackNavigator({
     Scores: ScoresScreen
 })
 
-// BOTTOM TAB NAVIGATION
+// BOTTOM TAB NAVIGATOR
 const CountriesBottomNavigator = createBottomTabNavigator({
     Search: {
         screen: CountryNavigator,
@@ -112,7 +112,7 @@ const CountriesBottomNavigator = createBottomTabNavigator({
     }
 })
 
-//DRAWER NAVIGATION
+//DRAWER NAVIGATOR
 const DrawerNavigator = createDrawerNavigator(
     {
         CountriesBottomNavigator,

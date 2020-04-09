@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Dimensions, Image } from 'react-native';
 
-import TextDefault from '../components/layout/textDefault'
-import EmptyPage from '../components/empyPage'
+import TextDefault from '../components/layout/TextDefault'
+import EmptyPage from '../components/EmpyPage'
 
 const singleCountry = props => {
     const [display, setDisplay] = useState(

@@ -4,8 +4,8 @@ import { StyleSheet, View, Text } from 'react-native'
 import { ButtonGroup } from 'react-native-elements';
 
 import Colors from '../components/layout/Colors'
-import Banner from '../components/banner'
-import TextDefault from '../components/layout/textDefault';
+import Banner from '../components/Banner'
+import TextDefault from '../components/layout/TextDefault';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
 const ScoresScreen = (props) => {
@@ -20,6 +20,7 @@ const ScoresScreen = (props) => {
   const twentyQuestionsGroup = scores.map(s => s.totalNum === 20 ? s : null).filter(el => el !== null)
   const thirtyQuestionsGroup = scores.map(s => s.totalNum === 30 ? s : null).filter(el => el !== null)
 
+  // CHECK QUESTION GROUPS
   useEffect(() => {
     let buttonsAvailable = []
     if (tenQuestionsGroup.length > 0) {
@@ -34,10 +35,12 @@ const ScoresScreen = (props) => {
     setButtons(buttonsAvailable)
   }, [])
 
+  // SET SELECTED GROUP
   useEffect(() => {
     setSelectedGroup(buttons[selectedIndex])
   })
 
+  // SET SCORES SHOWN
   useEffect(() => {
     let dataSelected = []
     if (selectedGroup === 10) {

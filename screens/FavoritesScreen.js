@@ -3,9 +3,9 @@ import { View, StyleSheet, Text } from 'react-native';
 import Colors from '../components/layout/Colors'
 import { useSelector, useDispatch } from 'react-redux'
 
-import CustomFlatList from '../components/customFlatList'
-import EmptyPage from '../components/empyPage'
-import Banner from '../components/banner'
+import CustomFlatList from '../components/CustomFlatList'
+import EmptyPage from '../components/EmpyPage'
+import Banner from '../components/Banner'
 import * as actions from '../store/actions/countriesAction'
 
 const FavoriteScreen = (props) => {

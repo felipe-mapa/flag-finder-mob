@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Button, Input, Overlay } from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons';
 
-import Colors from '../components/layout/Colors'
+import Colors from './layout/Colors'
 
 const GameOverlay = props => {
     const [playerName, setPlayerName] = useState('Someone')

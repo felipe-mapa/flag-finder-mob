@@ -4,7 +4,7 @@ import { View, StyleSheet, Linking } from 'react-native';
 import { Foundation } from '@expo/vector-icons';
 
 import Colors from '../components/layout/Colors'
-import TextDefault from '../components/layout/textDefault'
+import TextDefault from '../components/layout/TextDefault'
 
 const DrawerScreen = (props) => {
 
@@ -28,9 +28,6 @@ const DrawerScreen = (props) => {
                 <TextDefault style={styles.containerBottom}>
                     Developed with <Foundation name="heart" size={18} color={Colors.primaryColorLight} /> by <TextDefault style={styles.clickable} onPress={() => Linking.openURL('https://pavanela.com')}>pavanela.com</TextDefault>
                 </TextDefault>
-                {/* <TextDefault style={styles.clickable} onPress={() => Linking.openURL('https://play.google.com/store/apps/developer?id=Felipe+Pavanela')}>
-                    See more
-                </TextDefault> */}
                 <TextDefault style={styles.textBottom}>
                     <TextDefault style={styles.textBottomWhite}>Version: </TextDefault>
                     2.0.3
@@ -61,7 +58,6 @@ const styles = StyleSheet.create({
     },
     containerBottom: {
         color: '#fff',
-        //paddingRight: 2,
         textAlign: 'left',
         marginBottom: 10
     },

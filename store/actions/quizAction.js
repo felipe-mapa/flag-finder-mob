@@ -1,7 +1,7 @@
 import { Alert, BackHandler } from 'react-native';
 import Score from '../../models/score'
 
-import { insertScore, deleteScore, fetchScores } from '../../helpers/db'
+import { insertScore, deleteScore, fetchScores } from '../database/db'
 
 export const SET_SCORES = 'SET_SCORES'
 export const ADD_SCORE = 'ADD_SCORE'

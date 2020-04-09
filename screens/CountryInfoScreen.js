@@ -5,16 +5,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import MapView, { Marker } from 'react-native-maps'
 import { Tooltip, Text } from 'react-native-elements';
 
-import TextDefault from '../components/layout/textDefault'
-import Header from '../components/layout/header'
-import HeaderButton from '../components/layout/HeaderButton'
+import TextDefault from '../components/layout/TextDefault'
+import SubHeading from '../components/layout/SubHeading'
+import HeaderButton from '../components/layout/CustomHeaderButton'
 import customMap from '../helpers/customMapStyle'
-import Banner from '../components/banner';
+import Banner from '../components/Banner';
 import * as countriesActions from '../store/actions/countriesAction'
 import Colors from '../components/layout/Colors'
-import CustomActivityIndicator from '../components/customActivityIndicator'
+import CustomActivityIndicator from '../components/CustomActivityIndicator'
 
 const CountryInfoScreen = props => {
+  let pageContent = (<CustomActivityIndicator />)
   const [isLoading, setIsLoading] = useState(true)
 
   // COUNTRY
@@ -33,17 +34,18 @@ const CountryInfoScreen = props => {
     loadCountry()
   }, [])
   const loadCountry = useCallback(async () => {
+    let isSubscribed = true
     try {
       await dispatch(countriesActions.fetchCountry(countryName));
     } catch (err) {
       throw err
     }
     setIsLoading(false)
+    return () => isSubscribed = false
   }, []);
 
-  let pageContent = (<CustomActivityIndicator />)
   if (!isLoading) {
-    // TAG
+    // GET TAGS
     const countryTags = allTags.map(tag => {
       if (selectedCountry.tags.find(t => t === tag.id)) {
         return tag.name
@@ -53,7 +55,7 @@ const CountryInfoScreen = props => {
     }).filter(el => el != null)
     const outputTags = countryTags.join(", ")
 
-    // CONTINENT
+    // GET CONTINENT
     const continent = allContinents.map(conty => {
       if (selectedCountry.continent.find(c => c === conty.id)) {
         return conty.name
@@ -62,7 +64,7 @@ const CountryInfoScreen = props => {
       }
     }).filter(el => el != null)
 
-    // COUNTRY REGION
+    // GET MAP
     const mapRegion = {
       latitude: selectedCountry.latitude,
       longitude: selectedCountry.longitude,
@@ -122,7 +124,7 @@ const CountryInfoScreen = props => {
           <View style={styles.padding}>
             {selectedCountry.meaning === '' ? null : (
               <View>
-                <Header>Meaning</Header>
+                <SubHeading>Meaning</SubHeading>
                 <TextDefault>{selectedCountry.meaning}</TextDefault>
               </View>
             )}
@@ -133,7 +135,7 @@ const CountryInfoScreen = props => {
         <View style={styles.block}>
           {isNaN(selectedCountry.latitude) || isNaN(selectedCountry.longitude) ? null : (
             <View>
-              <Header>Where it is in the world</Header>
+              <SubHeading>Where it is in the world</SubHeading>
               <MapView
                 style={styles.map}
                 region={mapRegion}
@@ -148,7 +150,7 @@ const CountryInfoScreen = props => {
           )}
           {allTags < 0 ? null : (
             <View style={styles.padding}>
-              <Header>Tags</Header>
+              <SubHeading>Tags</SubHeading>
               <TextDefault>{outputTags}</TextDefault>
             </View>
           )}
@@ -158,7 +160,7 @@ const CountryInfoScreen = props => {
     )
   }
 
-  // FAVORITES
+  // TOGGLE FAVORITES
   const toggleFavHandler = () => {
     if (fav.some(c => c === countryId)) {
       dispatch(countriesActions.delFavorite(countryId))
@@ -166,11 +168,9 @@ const CountryInfoScreen = props => {
       dispatch(countriesActions.addFavorite(countryId))
     }
   }
-
   useEffect(() => {
     props.navigation.setParams({ toggleFav: toggleFavHandler })
   }, [selectedCountry, fav])
-
   useEffect(() => {
     props.navigation.setParams({ isFav: fav.some(c => c === countryId) })
   }, [fav])

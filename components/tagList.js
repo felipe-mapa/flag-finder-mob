@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-import Colors from '../components/layout/Colors'
-import TextDefault from './layout/textDefault'
+import Colors from './layout/Colors'
+import TextDefault from './layout/TextDefault'
 
-const tagList = props => {
+const TagList = props => {
   return (
     <View style={styles.block}>
         <TextDefault style={styles.text}>{props.children}</TextDefault>
@@ -43,4 +43,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default tagList
+export default TagList

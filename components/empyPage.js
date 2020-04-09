@@ -5,10 +5,10 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements'
 
-import DefaultText from '../components/layout/textDefault'
-import Colors from '../components/layout/Colors'
+import DefaultText from './layout/TextDefault'
+import Colors from './layout/Colors'
 
-const customFlatList = props => {
+const EmptyPage = props => {
 
     return (
         <View style={styles.screen}>
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default customFlatList;
+export default EmptyPage;

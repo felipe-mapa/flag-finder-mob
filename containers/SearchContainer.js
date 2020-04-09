@@ -4,11 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { showMessage } from "react-native-flash-message";
 import { LinearGradient } from 'expo-linear-gradient';
 
-import InputTag from '../components/inputTag'
-import TagList from '../components/tagList'
+import InputTag from '../components/InputTag'
+import TagList from '../components/TagList'
 import * as countriesActions from '../store/actions/countriesAction';
 import Colors from '../components/layout/Colors'
-import Heading from '../components/layout/topHeader'
+import SearchHeading from '../components/layout/MainHeading'
 
 const SearchContainer = (props) => {
     const [tagsList, setTagsList] = useState([])
@@ -206,7 +206,7 @@ const SearchContainer = (props) => {
                     if (filteredCountries.length === 0) {
                         setHeading("Not Found")
                     } else {
-                        setHeading("Filtered Flags")
+                        setHeading("Filtered Flags - "+filteredCountries.length)
                     }
                 }
             }
@@ -250,7 +250,7 @@ const SearchContainer = (props) => {
                                 ))}
                             </ScrollView>
                         </ScrollView>
-                        <Heading>{heading}</Heading>
+                        <SearchHeading>{heading}</SearchHeading>
                     </View>
                 </View>
             </LinearGradient>

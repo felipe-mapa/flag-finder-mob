@@ -4,10 +4,10 @@ import { useSelector } from 'react-redux';
 import { Button } from 'react-native-elements'
 
 import Colors from '../components/layout/Colors'
-import CustomActivityIndicator from '../components/customActivityIndicator'
-import Banner from './banner';
+import CustomActivityIndicator from '../components/CustomActivityIndicator'
+import Banner from '../components/Banner';
 
-const CountryInfoScreen = props => {
+const GameDisplay = props => {
     // SELECTORS
     const countries = useSelector(state => state.countries.loadedCountries)
 
@@ -124,4 +124,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default CountryInfoScreen
+export default GameDisplay
