@@ -82,8 +82,8 @@ export const initScore = () => {
   const promise = new Promise((resolve, reject) => {
     scoresDB.transaction(tx => {
       tx.executeSql(
-        // 'DROP TABLE IF EXISTS table_scores;',
-        'CREATE TABLE IF NOT EXISTS table_scores (id INTEGER PRIMARY KEY NOT NULL, playerId INTEGER NOT NULL UNIQUE, userName VARCHAR(255), totalScore INTEGER, totalNum INTEGER, time INTEGER, date VARCHAR(255));',
+        // 'DROP TABLE IF EXISTS table_score;',
+        'CREATE TABLE IF NOT EXISTS table_score (id INTEGER PRIMARY KEY NOT NULL, playerId INTEGER NOT NULL UNIQUE, userName VARCHAR(255), totalScore INTEGER, totalNum INTEGER, time INTEGER, date VARCHAR(255));',
         [],
         () => {
           resolve();
@@ -101,7 +101,7 @@ export const fetchScores = () => {
   const promise = new Promise((resolve, reject) => {
       scoresDB.transaction(tx => {
         tx.executeSql(
-          'SELECT * FROM table_scores',
+          'SELECT * FROM table_score',
           [],
           (_, result) => {
             resolve(result);
@@ -119,7 +119,7 @@ export const insertScore = (playerId, userName, totalScore, totalNum, time, date
   const promise = new Promise((resolve, reject) => {
       scoresDB.transaction(tx => {
           tx.executeSql(
-              `INSERT INTO table_scores (playerId, userName, totalScore, totalNum, time, date) VALUES (?,?,?,?,?,?);`,
+              `INSERT INTO table_score (playerId, userName, totalScore, totalNum, time, date) VALUES (?,?,?,?,?,?);`,
               [playerId, userName, totalScore, totalNum, time, date],
               (_, result) => {
                   resolve(result)
@@ -137,7 +137,7 @@ export const deleteScore = (playerId) => {
   const promise = new Promise((resolve, reject) => {
       scoresDB.transaction(tx => {
           tx.executeSql(
-              `DELETE FROM table_scores WHERE playerId = ?;`,
+              `DELETE FROM table_score WHERE playerId = ?;`,
               [playerId],
               (_, result) => {
                   resolve(result)
