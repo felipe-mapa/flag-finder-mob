@@ -51,8 +51,7 @@ const FlagErrorScreen = () => {
   }
 
   return (
-    <View>
-
+    <ScrollView>
       <Banner />
       <View style={styles.screen}>
         <ScrollView>
@@ -83,7 +82,7 @@ const FlagErrorScreen = () => {
           </View>
         </ScrollView>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
