@@ -2,7 +2,7 @@
 
 A React Native App to search engine to filter country flags by their characteristics and to give the user some information about each country and flag. Most of the code is shared with [Flag Finder App Website](http://flagfinderapp.com/) which is a React Web App.
 
-On version 2.0.0 I also added a flag quiz game with score hanking. 
+On version 2.0.0 I also added a flag quiz game with score ranking. 
 
 ## URL
 
