@@ -7,7 +7,7 @@ import {
     getDocs,
 } from "firebase/firestore/lite";
 
-import firebaseConfig from "./firebaseConfig.js";
+import firebaseConfig from "../config/firebaseConfig.js";
 
 import data from "./migration/2022.03.19-all-data.json";
 

@@ -21,6 +21,7 @@ const SearchContainer = (props) => {
     const tags = useSelector(state => state.countries.tagsFilter);
     const dataCountriesName = useSelector(state => state.countries.loadedCountries).map(c => c.name)
     const dataContinentsName = useSelector(state => state.countries.loadedContinents).map(c => c.name)
+    const safeAreaOnTop = StatusBar.currentHeight ?? 0;
     const dispatch = useDispatch();
 
     // REMOVE TAG
@@ -222,7 +223,7 @@ const SearchContainer = (props) => {
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-                <View style={styles.screen}>
+                <View style={[styles.screen, {paddingTop: safeAreaOnTop / 2}]}>
                     <View style={styles.imgContainer}>
                         <Image source={require('../assets/flagFinder.png')} style={styles.titleImage} resizeMode='contain' />
                     </View>

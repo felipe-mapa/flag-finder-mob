@@ -4,12 +4,17 @@ import * as Font from 'expo-font'
 import ReduxThunk from 'redux-thunk';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import { initializeApp } from 'firebase/app';
 import FlashMessage from "react-native-flash-message";
 
 import countriesReducer from './store/reducers/countriesReducer';
 import quizReducer from './store/reducers/quizReducer';
 import Navigator from './navigation/Navigator'
 import { initFav, initScore } from './store/database/db'
+import firebaseConfig from './config/firebaseConfig';
+
+// FIREBASE
+initializeApp(firebaseConfig);
 
 // LOAD DATABASE
 initFav()

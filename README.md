@@ -8,6 +8,12 @@ On version 2.0.0 I also added a flag quiz game with score ranking.
 
 __[Google Play](https://ply.gl/com.pavanela.flag_finder)__
 
+## Run it
+```
+yarn
+```
+
+
 ## Database
 The headless database is retrieved from the same database as [Flag Finder Website](http://flagfinderapp.com/) using Redux and Thunk for management.
 To be able to store data in the device I used SQLite, where I created a table to save the favorites countries and the top scores of the game.

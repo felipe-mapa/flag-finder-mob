@@ -1,7 +1,7 @@
 class Continent {
-    constructor(id, name) {
-        this.id = id;
+    constructor(name, slug) {
         this.name = name;
+        this.slug = slug;
     }
 }
 

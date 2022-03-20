@@ -42,7 +42,8 @@ const SearchScreen = (props) => {
         <SafeAreaView style={styles.screen}>
             <SearchContainer navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} />
             <CountriesDisplay navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} onPressing={(id, slug, title, mainColor) => selectItemHandler(id, slug, title, mainColor)} />
-            <Banner />
+            {/* TODO: uncomment */}
+            {/* <Banner /> */}
         </SafeAreaView>
     );
 };
@@ -50,7 +51,7 @@ const SearchScreen = (props) => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: Colors.greyLight
+        backgroundColor: Colors.greyLight,
     }
 })
 

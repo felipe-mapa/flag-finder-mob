@@ -1,6 +1,5 @@
 class Tag {
-    constructor(id, name, slug) {
-        this.id = id;
+    constructor(name, slug) {
         this.name = name;
         this.slug = slug;
     }
