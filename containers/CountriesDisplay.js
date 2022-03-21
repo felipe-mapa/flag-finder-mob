@@ -35,15 +35,15 @@ const CountriesDisplay = (props) => {
 
     if (filteredCountries.length < 1 && tags.length > 0) {
         return (
-            <EmptyPage
-                navigation={props.navigation}
-                page='Contact'
-                title='FLAG AN ERROR'
-            >
-                We are sorry to say the characteristics you added cannot match
-                any flag on our database. If you think there's any
-                characteristic or flag missing please flag as the problem.
-            </EmptyPage>
+                <EmptyPage
+                    navigation={props.navigation}
+                    page='Contact'
+                    title='FLAG AN ERROR'
+                >
+                    We are sorry to say the characteristics you added cannot
+                    match any flag on our database. If you think there's any
+                    characteristic or flag missing please flag us the problem.
+                </EmptyPage>
         );
     }
 

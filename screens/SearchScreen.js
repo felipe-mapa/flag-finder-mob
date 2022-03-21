@@ -42,8 +42,7 @@ const SearchScreen = (props) => {
         <SafeAreaView style={styles.screen}>
             <SearchContainer navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} />
             <CountriesDisplay navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} onPressing={selectItemHandler} />
-            {/* TODO: uncomment */}
-            {/* <Banner /> */}
+            <Banner />
         </SafeAreaView>
     );
 };
