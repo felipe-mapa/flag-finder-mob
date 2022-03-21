@@ -4,11 +4,11 @@ import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import TextDefault from '../components/layout/TextDefault'
 import EmptyPage from '../components/EmpyPage'
 
-const singleCountry = props => {
+const SingleCountry = props => {
     const [display, setDisplay] = useState(
         <View style={styles.flagContainer}>
             <View style={styles.imageContainer}>
-                <Image style={styles.image} source={{ uri: props.flag }} />
+                <Image style={styles.image} source={{ uri: props.imageUrl }} />
             </View>
             <TextDefault style={styles.text}>{props.name}</TextDefault>
         </View>
@@ -19,7 +19,7 @@ const singleCountry = props => {
             setDisplay(
                 <View style={styles.flagContainer}>
                     <View style={styles.imageContainer}>
-                        <Image style={styles.image} source={{ uri: props.flag }} />
+                        <Image style={styles.image} source={{ uri: props.imageUrl }} />
                     </View>
                     <TextDefault style={styles.text}>{props.name}</TextDefault>
                 </View>
@@ -29,7 +29,7 @@ const singleCountry = props => {
                 setDisplay(
                     <View style={styles.flagContainerSingle}>
                         <View style={styles.imageContainer}>
-                            <Image style={styles.image} source={{ uri: props.flag }} />
+                            <Image style={styles.image} source={{ uri: props.imageUrl }} />
                         </View>
                         <TextDefault style={styles.textSingle}>{props.name}</TextDefault>
                     </View>
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default singleCountry
+export default SingleCountry

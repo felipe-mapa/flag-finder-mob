@@ -1,6 +1,5 @@
 import {
     SET_COUNTRIES,
-    SET_COUNTRY,
     SET_TAGS,
     SET_CONTINENTS,
     ADD_TAG,
@@ -12,7 +11,6 @@ import {
 
 const initialState = {
     loadedCountries: [],
-    loadedFullCountry: [],
     loadedTags: [],
     loadedContinents: [],
     tagsFilter: [],
@@ -25,11 +23,6 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loadedCountries: state.loadedCountries.concat(action.countries)
-            }
-        case SET_COUNTRY:
-            return {
-                ...state,
-                loadedFullCountry: state.loadedFullCountry.concat(action.country)
             }
         case SET_TAGS:
             return {
@@ -44,28 +37,28 @@ export default (state = initialState, action) => {
         case ADD_TAG:
             return {
                 ...state,
-                tagsFilter: state.tagsFilter.concat(action.tagId)
+                tagsFilter: state.tagsFilter.concat(action.tagSlug)
             }
         case DEL_TAG:
             return {
                 ...state,
-                tagsFilter: state.tagsFilter.filter(item => item !== action.tagId)
+                tagsFilter: state.tagsFilter.filter(item => item !== action.tagSlug)
             }
         case SET_FAV:
             return {
                 ...state,
-                favoriteCountries: action.favorites.map(fav => fav.countryId)
+                favoriteCountries: action.favorites.map(fav => fav.countrySlug)
             }
         case ADD_FAV:
             return {
                 ...state,
-                favoriteCountries: state.favoriteCountries.concat(action.countryId)
+                favoriteCountries: state.favoriteCountries.concat(action.countrySlug)
             }
         case DEL_FAV:
             const updatedFavCountries = [...state.favoriteCountries]
             return {
                 ...state,
-                favoriteCountries: updatedFavCountries.filter(item => item !== action.countryId)
+                favoriteCountries: updatedFavCountries.filter(item => item !== action.countrySlug)
             }
         default:
             return state

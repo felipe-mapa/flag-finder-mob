@@ -9,7 +9,7 @@ export const initFav = () => {
     favsDB.transaction(tx => {
       tx.executeSql(
         //'DROP TABLE IF EXISTS table_favorites;',
-        'CREATE TABLE IF NOT EXISTS table_favorites (id INTEGER PRIMARY KEY NOT NULL, countryId INTEGER NOT NULL UNIQUE);',
+        'CREATE TABLE IF NOT EXISTS table_favorites (id INTEGER PRIMARY KEY NOT NULL, countrySlug INTEGER NOT NULL UNIQUE);',
         [],
         () => {
           resolve();
@@ -41,12 +41,12 @@ export const fetchFavs = () => {
       return promise;
 };
 
-export const insertFav = (countryId) => {
+export const insertFav = (countrySlug) => {
     const promise = new Promise((resolve, reject) => {
         favsDB.transaction(tx => {
             tx.executeSql(
-                `INSERT INTO table_favorites (countryId) VALUES (?);`,
-                [countryId],
+                `INSERT INTO table_favorites (countrySlug) VALUES (?);`,
+                [countrySlug],
                 (_, result) => {
                     resolve(result)
                 },
@@ -59,12 +59,12 @@ export const insertFav = (countryId) => {
     return promise
 }
 
-export const deleteFav = (countryId) => {
+export const deleteFav = (countrySlug) => {
     const promise = new Promise((resolve, reject) => {
         favsDB.transaction(tx => {
             tx.executeSql(
-                `DELETE FROM table_favorites WHERE countryId = ?;`,
-                [countryId],
+                `DELETE FROM table_favorites WHERE countrySlug = ?;`,
+                [countrySlug],
                 (_, result) => {
                     resolve(result)
                 },

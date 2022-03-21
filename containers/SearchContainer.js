@@ -25,21 +25,21 @@ const SearchContainer = (props) => {
     const dispatch = useDispatch();
 
     // REMOVE TAG
-    const removeTag = id => {
-        delTagHandler(id)
+    const removeTag = slug => {
+        delTagHandler(slug)
         setTagsList(currentTags => {
-            return currentTags.filter(tag => tag.id !== id)
+            return currentTags.filter(tag => tag.slug !== slug)
         })
     }
 
     // ADD TAG
-    const addTagHandler = useCallback((id) => {
-        dispatch(countriesActions.addTag(id))
+    const addTagHandler = useCallback((slug) => {
+        dispatch(countriesActions.addTag(slug))
     }, [dispatch])
 
     // DELETE TAG
-    const delTagHandler = useCallback((id) => {
-        dispatch(countriesActions.delTag(id))
+    const delTagHandler = useCallback((slug) => {
+        dispatch(countriesActions.delTag(slug))
     }, [dispatch])
 
     // CHANGE TAG NAME
@@ -154,11 +154,11 @@ const SearchContainer = (props) => {
             if (isValid && newTag.length > 0) {
                 // Add to Array 
                 let capitalizedTag = capitalize(newTag).trim()
-                let tagId = dataTags.filter(t => t.name === capitalizedTag)
-                let mainId = dataTags.find(t => t.name === capitalizedTag) ? tagId[0].id : capitalizedTag
+                let tagSlug = dataTags.filter(t => t.name === capitalizedTag)
+                let mainSlug = dataTags.find(t => t.name === capitalizedTag) ? tagSlug[0].slug : capitalizedTag
 
-                setTagsList([...tagsList, { tag: capitalizedTag, id: mainId }])
-                addTagHandler(mainId)
+                setTagsList([...tagsList, { tag: capitalizedTag, slug: mainSlug }])
+                addTagHandler(mainSlug)
                 setNewTag('')
             }
         }
@@ -243,8 +243,8 @@ const SearchContainer = (props) => {
                             >
                                 {tagsList.map(tag => (
                                     <TagList
-                                        key={tag.id}
-                                        removeTag={removeTag.bind(this, tag.id)}
+                                        key={tag.slug}
+                                        removeTag={removeTag.bind(this, tag.slug)}
                                     >
                                         {tag.tag}
                                     </TagList>

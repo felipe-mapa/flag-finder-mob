@@ -1,5 +1,4 @@
 import Country from "../../models/country";
-import BasicCountry from "../../models/basicCountry";
 import Tag from "../../models/tag";
 import Continent from "../../models/continent";
 import { Alert, BackHandler } from "react-native";
@@ -8,7 +7,6 @@ import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { insertFav, deleteFav, fetchFavs } from "../database/db";
 
 export const SET_COUNTRIES = "SET_COUNTRIES";
-export const SET_COUNTRY = "SET_COUNTRY";
 export const SET_TAGS = "SET_TAGS";
 export const SET_CONTINENTS = "SET_CONTINENTS";
 export const ADD_TAG = "ADD_TAG";
@@ -27,27 +25,38 @@ const serverError = () =>
     );
 
 export const fetchCountries = () => {
+    const firestore = getFirestore();
+    const countriesRef = collection(firestore, "countries");
+
     return async (dispatch) => {
         try {
-            const firestore = getFirestore();
-            const countriesRef = collection(firestore, "countries");
             const countries = await getDocs(countriesRef);
 
             const loadedCountries = [];
 
-            countries.forEach((doc) => {
+            countries.forEach(async (doc) => {
                 const data = doc.data();
-                const countryTags = {
+                const countryTags = [
                     ...data.tags,
-                    ...data.constinents,
-                };
+                    ...data.continents,
+                ];
+                if(data.slug === 'brazil') {
+                    console.log('data.continents', data.continents)
+                }
+
                 loadedCountries.push(
-                    new BasicCountry(
-                        data.id,
-                        data.title,
-                        data.image_file_name,
+                    new Country(
+                        data.name,
+                        data.imageUrl,
+                        data.capital,
                         data.continents,
-                        data.maincolor,
+                        data.population,
+                        data.hdi,
+                        data.year,
+                        data.description,
+                        data.mainColor,
+                        parseFloat(data.latitude),
+                        parseFloat(data.longitude),
                         countryTags,
                         data.slug
                     )
@@ -65,71 +74,18 @@ export const fetchCountries = () => {
     };
 };
 
-export const fetchCountry = (countrySlug) => {
-    return async (dispatch) => {
-        try {
-            const firestore = getFirestore();
-            const countryRef = collection(firestore, "country", countrySlug);
-            const country = await getDocs(countryRef);
-
-            const loadedFullCountry = [];
-
-            country.forEach((doc) => {
-                const data = doc.data();
-                const countryTags = {
-                    ...data.tags,
-                    ...data.constinents,
-                };
-
-                loadedFullCountry.push(
-                    new Country(
-                        data.id,
-                        data.title,
-                        data.image_file_name,
-                        data.capital,
-                        data.continents,
-                        data.population,
-                        data.hdi,
-                        data.year,
-                        data.meaning,
-                        data.mainColor,
-                        parseFloat(data.latitude),
-                        parseFloat(data.longitude),
-                        countryTags,
-                        data.slug
-                    )
-                );
-            });
-
-            dispatch({ type: SET_COUNTRY, country: loadedFullCountry });
-        } catch (err) {
-            console.log("Network request failed on fetchCountry");
-            throw err;
-        }
-    };
-};
-
 export const fetchTags = () => {
     return async (dispatch) => {
         try {
             const firestore = getFirestore();
-            const countriesRef = collection(firestore, "countries");
-            const countries = await getDocs(countriesRef);
+            const tagsRef = collection(firestore, "tags");
+            const tags = await getDocs(tagsRef);
 
             const loadedTags = [];
 
-            countries.forEach((doc) => {
+            tags.forEach((doc) => {
                 const data = doc.data();
-                const countryTags = {
-                    ...data.tags,
-                    ...data.constinents,
-                };
-                loadedTags.push(
-                        new Tag(
-                            data.name,
-                            data.slug
-                        )
-                );
+                loadedTags.push(new Tag(data.name, data.slug));
             });
 
             dispatch({ type: SET_TAGS, tags: loadedTags });
@@ -169,36 +125,36 @@ export const fetchContinents = () => {
     };
 };
 
-export const addTag = (id) => {
+export const addTag = (slug) => {
     return {
         type: ADD_TAG,
-        tagId: id,
+        tagSlug: slug,
     };
 };
 
-export const delTag = (id) => {
+export const delTag = (slug) => {
     return {
         type: DEL_TAG,
-        tagId: id,
+        tagSlug: slug,
     };
 };
 
-export const addFavorite = (id) => {
+export const addFavorite = (slug) => {
     return async (dispatch) => {
         try {
-            await insertFav(id);
-            dispatch({ type: ADD_FAV, countryId: id });
+            await insertFav(slug);
+            dispatch({ type: ADD_FAV, countrySlug: slug });
         } catch (err) {
             throw err;
         }
     };
 };
 
-export const delFavorite = (id) => {
+export const delFavorite = (slug) => {
     return async (dispatch) => {
         try {
-            await deleteFav(id);
-            dispatch({ type: DEL_FAV, countryId: id });
+            await deleteFav(slug);
+            dispatch({ type: DEL_FAV, countrySlug: slug });
         } catch (err) {
             throw err;
         }

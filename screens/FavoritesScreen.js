@@ -11,7 +11,7 @@ import * as actions from '../store/actions/countriesAction'
 const FavoriteScreen = (props) => {
   const favoriteInData = useSelector(state => state.countries.favoriteCountries)
   const favoriteCountries = useSelector(state => state.countries.loadedCountries.map(c => {
-    if (favoriteInData.find(d => d === c.id)) {
+    if (favoriteInData.find(d => d === c.slug)) {
       return c
     }
   }).filter(el => el != null))
@@ -22,8 +22,8 @@ const FavoriteScreen = (props) => {
     dispatch(actions.loadFavs());
   }, [dispatch]);
 
-  const selectItemHandler = (id, slug, title, mainColor) => {
-    props.navigation.navigate('Country', { id: id, slug: slug, title: title, mainColor: mainColor === '' ? Colors.primaryColorDark : mainColor })
+  const selectItemHandler = (countrySelected) => {
+    props.navigation.navigate('Country', countrySelected)
   }
 
   return (
@@ -33,7 +33,7 @@ const FavoriteScreen = (props) => {
         <CustomFlatList
           data={favoriteCountries}
           length={favoriteCountries.length}
-          onPress={(id, slug, title, mainColor) => selectItemHandler(id, slug, title, mainColor)}
+          onPress={ selectItemHandler}
         />
         :
         <EmptyPage navigation={props.navigation} page="Search" title="SEARCH A FLAG">

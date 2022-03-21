@@ -7,9 +7,12 @@ import {
     getDocs,
 } from "firebase/firestore/lite";
 
-import firebaseConfig from "../config/firebaseConfig.js";
+import firebaseConfig from "./config/firebaseConfig.js";
 
-import data from "./migration/2022.03.19-all-data.json";
+import data from "./migration/2022.03.21-all-data.json";
+
+// RUN THIS SCRIPT
+// node --experimental-json-modules import.js
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -34,11 +37,12 @@ const importJsonToFirestore = async () => {
                     const element = documents[documentKey];
 
                     await setDoc(doc(db, collectionKey, documentKey), element);
+                    console.log("✅ "+documentKey)
                 }
             }
         }
     }
 };
 
-getCountriesCount();
-// importJsonToFirestore();
+// getCountriesCount();
+importJsonToFirestore();

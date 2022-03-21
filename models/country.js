@@ -1,14 +1,13 @@
 class Country {
-    constructor(id, name, flag, capital, continent, population, hdi, year, meaning, mainColor, latitude, longitude, tags, slug) {
-        this.id = id;
+    constructor(name, imageUrl, capital, continents, population, hdi, year, description, mainColor, latitude, longitude, tags, slug) {
         this.name = name;
-        this.flag = flag;
+        this.imageUrl = imageUrl;
         this.capital = capital;
-        this.continent = continent;
+        this.continents = continents;
         this.population = population;
         this.hdi = hdi;
         this.year = year;
-        this.meaning = meaning;
+        this.description = description;
         this.mainColor = mainColor;
         this.latitude = latitude;
         this.longitude = longitude;

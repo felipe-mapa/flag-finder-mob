@@ -11,13 +11,13 @@ const GameDisplay = props => {
     // SELECTORS
     const countries = useSelector(state => state.countries.loadedCountries)
 
-    const selectedCountry = countries.find(c => c.id === props.country)
+    const selectedCountry = countries.find(c => c.slug === props.country)
     const [countryOptions, setCountryOptions] = useState([])
     const [countryPressed, setCountryPressed] = useState('')
 
     // SET OPTIONS
     useEffect(() => {
-        let canBeOptions = countries.filter(c => selectedCountry.id !== c.id).map(c => c.name)
+        let canBeOptions = countries.filter(c => selectedCountry.slug !== c.slug).map(c => c.name)
         let newCountriesOptions = [selectedCountry.name]
 
         for (x = 0; x < 3; x++) {
@@ -45,7 +45,7 @@ const GameDisplay = props => {
         <ScrollView style={styles.container}>
             <View style={styles.block}>
                 <View style={styles.imageContainer}>
-                    <Image onLoadStart={() => props.isLoading}  onLoadEnd={() => props.isLoaded} style={styles.image} source={{ uri: selectedCountry.flag }} />
+                    <Image onLoadStart={() => props.isLoading}  onLoadEnd={() => props.isLoaded} style={styles.image} source={{ uri: selectedCountry.imageUrl }} />
                 </View>
                 {countryOptions.length > 0 ? (
                     <View style={styles.buttonGroupContainer}>

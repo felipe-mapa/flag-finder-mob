@@ -34,7 +34,7 @@ const GameScreen = (props) => {
     if (countries.length > 1) {
 
       let countryList = []
-      let canBeOptions = countries.map(c => c.id)
+      let canBeOptions = countries.map(c => c.slug)
 
       for (x = 0; x < numberOfQuestions; x++) {
         countryList = countryList.concat(canBeOptions[Math.floor(Math.random() * canBeOptions.length)])
