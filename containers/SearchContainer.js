@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { ScrollView, Dimensions, View, Image, StatusBar, StyleSheet } from 'react-native';
+import { ScrollView, Dimensions, View, Image, StatusBar, StyleSheet, Keyboard } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { showMessage } from "react-native-flash-message";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -13,14 +13,11 @@ import SearchHeading from '../components/layout/MainHeading'
 const SearchContainer = (props) => {
     const [tagsList, setTagsList] = useState([])
     const [newTag, setNewTag] = useState('')
-    const [isSubmitted, setIsSubmitted] = useState(false)
     const [filteredCountries, setFilteredCountries] = useState([])
 
     const countries = useSelector(state => state.countries.loadedCountries);
     const dataTags = useSelector(state => state.countries.loadedTags);
     const tags = useSelector(state => state.countries.tagsFilter);
-    const dataCountriesName = useSelector(state => state.countries.loadedCountries).map(c => c.name)
-    const dataContinentsName = useSelector(state => state.countries.loadedContinents).map(c => c.name)
     const safeAreaOnTop = StatusBar.currentHeight ?? 0;
     const dispatch = useDispatch();
 
@@ -59,8 +56,6 @@ const SearchContainer = (props) => {
         }
     }, [dispatch]);
 
-
-
     // LOAD CONTINENTS
     useEffect(() => {
         loadContinents()
@@ -74,66 +69,67 @@ const SearchContainer = (props) => {
     }, [dispatch]);
 
     // TEXT VALIDATION
-    useEffect(() => {
-        if (isSubmitted) {
-            let errorMessage = ''
-            let isValid = true
-            if (newTag.length > 0) {
-                // Check if contains signs
-                if (!newTag.match("^[a-zA-Z0-9- ]+$")) {
-                    isValid = false
-                    errorMessage = 'Must be letters and/or numbers'
-                } else {
-                    // Check if it's longer than (2)
-                    if (newTag.length < 3) {
-                        isValid = false
-                        errorMessage = 'Must be more than 2 letters'
-                    } else {
-                        // Capitalize input
-                        let capitalizedTag = capitalize(newTag).trim()
-
-                        // Check if already added
-                        if (tagsList.find(t => t.tag === capitalizedTag)) {
-                            isValid = false
-                            errorMessage = 'Characteristic already added'
-                        } else {
-                            // Check if is in database
-                            if (!dataTags.find(t => t.name === capitalizedTag)) {
-                                // Check if is continent name
-                                if (dataContinentsName.find(t => t === capitalizedTag)) {
-                                    isValid = true
-                                    errorMessage = ''
-                                } else {
-                                    // Check if is country name
-                                    if (dataCountriesName.find(t => t === capitalizedTag)) {
-                                        isValid = true
-                                        errorMessage = ''
-                                        //console.log(dataCountriesName.find(t => t === capitalizedTag));
-                                    } else {
-                                        isValid = false
-                                        errorMessage = 'Characteristic not found on our database'
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                submitHandler(errorMessage, isValid)
-                setIsSubmitted(false)
-            } else {
-                isValid = true
-                errorMessage = ''
-            }
+    const onSubmitHandler = () => {
+        if (newTag.length === 0) {
+            onSubmit('', true)
+            return
         }
-    }, [newTag, isSubmitted])
+
+        // Check if it's only letters and numbers
+        if (!newTag.match("^[a-zA-Z0-9- ]+$")) {
+            onSubmit('Must be letters and/or numbers', false)
+            return
+        } 
+
+        // Check if it's longer than (2)
+        if (newTag.length < 3) {
+            onSubmit('Must be more than 2 letters', false)
+            return
+        } 
+
+        const trimmedTag = newTag.toLowerCase().trim()
+
+        // Check if already added
+        if (tagsList.find(t => t.name.toLowerCase() === trimmedTag)) {
+            onSubmit('Characteristic already added', false)
+            return
+        }
+
+        if (!dataTags.find(t => t.name.toLowerCase() === trimmedTag)) {
+            onSubmit('Characteristic not found on our database', false)
+            return
+        } 
+
+        onSubmit('', true)
+    }
 
     const errorMessageHandler = () => {
         props.navigation.navigate('Contact')
     }
 
     // ADD TAG TO ARRAY
-    const submitHandler = (errorMessage, isValid) => {
-        if (!isValid && errorMessage.length > 0) {
+    const onSubmit = (errorMessage, isValid) => {
+        if (newTag.length === 0) {
+            Keyboard.dismiss()
+            return
+        }
+
+        if (isValid) {
+            // Add to Array 
+            const trimmedTag = newTag.toLowerCase().trim();
+            const tagFound = dataTags.find(t => t.name.toLowerCase() === trimmedTag);
+
+            if(tagFound) {
+                setTagsList(prevState=>[...prevState, tagFound])
+                addTagHandler(tagFound.slug)
+            }
+
+            setNewTag('')
+            return
+        }
+
+
+        if (errorMessage.length > 0) {
             if(errorMessage === 'Characteristic not found on our database') {
                 showMessage({
                     message: errorMessage,
@@ -143,34 +139,16 @@ const SearchContainer = (props) => {
                     onPress: errorMessageHandler
                     // autoHide: false
                 });
-            } else {
-                showMessage({
-                    message: errorMessage,
-                    type: "danger",
-                });
-            }
-            
-        } else {
-            if (isValid && newTag.length > 0) {
-                // Add to Array 
-                let capitalizedTag = capitalize(newTag).trim()
-                let tagSlug = dataTags.filter(t => t.name === capitalizedTag)
-                let mainSlug = dataTags.find(t => t.name === capitalizedTag) ? tagSlug[0].slug : capitalizedTag
+                return 
+            } 
 
-                setTagsList([...tagsList, { tag: capitalizedTag, slug: mainSlug }])
-                addTagHandler(mainSlug)
-                setNewTag('')
-            }
-        }
-    }
+            showMessage({
+                message: errorMessage,
+                type: "danger",
+            });
 
-    capitalize = (str) => {
-        var splitStr = str.toLowerCase().split(' ');
-        for (var i = 0; i < splitStr.length; i++) {
-            splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+            return
         }
-        // Directly return the joined string
-        return splitStr.join(' ');
     }
 
     // FILTER COUNTRIES
@@ -188,7 +166,6 @@ const SearchContainer = (props) => {
         } else {
             setFilteredCountries(countries)
         }
-        //console.log(countries);
     }, [countries, tags])
 
     // HEADER
@@ -231,11 +208,11 @@ const SearchContainer = (props) => {
                             <InputTag
                             change={changeHandler.bind(this)}
                             value={newTag}
-                            submitted={() => setIsSubmitted(true)}
+                            submitted={onSubmitHandler}
                             dataTags={dataTags}
                             loaded={props.countriesAreLoaded }
                         />
-                        
+
                         <ScrollView style={styles.listContainer}>
                             <ScrollView
                                 horizontal={true}
@@ -246,7 +223,7 @@ const SearchContainer = (props) => {
                                         key={tag.slug}
                                         removeTag={removeTag.bind(this, tag.slug)}
                                     >
-                                        {tag.tag}
+                                        {tag.name}
                                     </TagList>
                                 ))}
                             </ScrollView>

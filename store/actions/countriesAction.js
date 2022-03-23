@@ -37,12 +37,10 @@ export const fetchCountries = () => {
             countries.forEach(async (doc) => {
                 const data = doc.data();
                 const countryTags = [
+                    data.slug,
                     ...data.tags,
-                    ...data.continents,
+                    ...data.continents.map(continent=>continent.toLowerCase()),
                 ];
-                if(data.slug === 'brazil') {
-                    console.log('data.continents', data.continents)
-                }
 
                 loadedCountries.push(
                     new Country(

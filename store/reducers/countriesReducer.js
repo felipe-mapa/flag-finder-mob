@@ -22,22 +22,35 @@ export default (state = initialState, action) => {
         case SET_COUNTRIES:
             return {
                 ...state,
-                loadedCountries: state.loadedCountries.concat(action.countries)
+                loadedTags: [
+                    ...state.loadedTags,
+                    ...action.countries.map(country=>({
+                        name: country.name,
+                        slug: country.slug,
+                    }))
+                ],
+                loadedCountries: action.countries
             }
         case SET_TAGS:
             return {
                 ...state,
-                loadedTags: state.loadedTags.concat(action.tags)
+                loadedTags: action.tags
             }
         case SET_CONTINENTS:
+            const continents = action.continents
+
             return {
                 ...state,
-                loadedContinents: state.loadedContinents.concat(action.continents)
+                loadedTags: [
+                    ...state.loadedTags,
+                    ...continents
+                ],
+                loadedContinents: continents
             }
         case ADD_TAG:
             return {
                 ...state,
-                tagsFilter: state.tagsFilter.concat(action.tagSlug)
+                tagsFilter: [...state.tagsFilter, action.tagSlug]
             }
         case DEL_TAG:
             return {
@@ -52,7 +65,7 @@ export default (state = initialState, action) => {
         case ADD_FAV:
             return {
                 ...state,
-                favoriteCountries: state.favoriteCountries.concat(action.countrySlug)
+                favoriteCountries: [...state.favoriteCountries, action.countrySlug]
             }
         case DEL_FAV:
             const updatedFavCountries = [...state.favoriteCountries]

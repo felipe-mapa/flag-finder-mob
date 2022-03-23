@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { StyleSheet, View, Image, ScrollView, Dimensions } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,7 +15,7 @@ import Colors from "../components/layout/Colors";
 
 const CountryInfoScreen = (props) => {
     // COUNTRY
-    const country = props.navigation.state.params.item;
+    const country = useMemo(() => props.navigation.state.params, []);
 
     // SELECTORS
     const allTags = useSelector((state) => state.countries.loadedTags);
@@ -244,7 +244,7 @@ CountryInfoScreen.navigationOptions = (navData) => {
     const toggleFavorite = navData.navigation.getParam("toggleFav");
     const isFavorite = navData.navigation.getParam("isFav");
 
-    const country = navData.navigation.state.params.item;
+    const country = navData.navigation.state.params;
 
     return {
         headerTitle: country.name,
@@ -259,7 +259,10 @@ CountryInfoScreen.navigationOptions = (navData) => {
             </HeaderButtons>
         ),
         headerStyle: {
-            backgroundColor: country.mainColor === "" ? Colors.primaryColorDark :country.mainColor,
+            backgroundColor:
+                country.mainColor === ""
+                    ? Colors.primaryColorDark
+                    : country.mainColor,
             headerTitleStyle: {
                 fontWeight: "bold",
                 fontFamily: "comfortaa-bold",

@@ -18,6 +18,15 @@ const SearchScreen = (props) => {
     const [countriesAreLoaded, setCountriesAreLoaded] = useState(false)
     const dispatch = useDispatch();
 
+    const loadCountries = useCallback(async () => {
+        try {
+            await dispatch(countriesActions.fetchCountries());
+        } catch (err) {
+            throw err
+        }
+        setCountriesAreLoaded(true)
+    }, []);
+
     // LOAD FAVORITES
     useEffect(() => {
         dispatch(countriesActions.loadFavs());
@@ -28,20 +37,10 @@ const SearchScreen = (props) => {
         loadCountries()
     }, [])
 
-    // LOAD ALL COUNTRIES TOGETHER
-    const loadCountries = useCallback(async () => {
-        try {
-            await dispatch(countriesActions.fetchCountries());
-        } catch (err) {
-            throw err
-        }
-        setCountriesAreLoaded(true)
-    }, []);
-
     return (
         <SafeAreaView style={styles.screen}>
             <SearchContainer navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} />
-            <CountriesDisplay navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} onPressing={selectItemHandler} />
+            <CountriesDisplay navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} onPress={selectItemHandler} />
             <Banner />
         </SafeAreaView>
     );
