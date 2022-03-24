@@ -8,11 +8,6 @@ On version 2.0.0 I also added a flag quiz game with score ranking.
 
 __[Google Play](https://ply.gl/com.pavanela.flag_finder)__
 
-## Run it
-```
-yarn
-```
-
 
 ## Database
 The headless database is retrieved from the same database as [Flag Finder Website](http://flagfinderapp.com/) using Redux and Thunk for management.
