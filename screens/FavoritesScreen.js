@@ -23,7 +23,6 @@ const FavoriteScreen = (props) => {
   }, [dispatch]);
 
   const selectItemHandler = (countrySelected) => {
-    console.log('pressed')
     props.navigation.navigate('Country', countrySelected)
   }
 
