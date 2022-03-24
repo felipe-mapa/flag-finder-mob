@@ -8,10 +8,12 @@ import CustomActivityIndicator from '../components/CustomActivityIndicator'
 import Banner from '../components/Banner';
 
 const GameDisplay = props => {
+    const { country, onLoadStart, onLoadEnd } = props
+
     // SELECTORS
     const countries = useSelector(state => state.countries.loadedCountries)
 
-    const selectedCountry = countries.find(c => c.slug === props.country)
+    const selectedCountry = countries.find(c => c.slug === country)
     const [countryOptions, setCountryOptions] = useState([])
     const [countryPressed, setCountryPressed] = useState('')
 
@@ -32,6 +34,7 @@ const GameDisplay = props => {
             newCountriesOptions[i] = newCountriesOptions[j];
             newCountriesOptions[j] = temp;
         }
+
         setCountryOptions(newCountriesOptions)
     }, [selectedCountry])
 
@@ -42,10 +45,11 @@ const GameDisplay = props => {
     }
 
     return (
+        <>
         <ScrollView style={styles.container}>
             <View style={styles.block}>
                 <View style={styles.imageContainer}>
-                    <Image onLoadStart={() => props.isLoading}  onLoadEnd={() => props.isLoaded} style={styles.image} source={{ uri: selectedCountry.imageUrl }} />
+                    <Image onLoadStart={onLoadStart}  onLoadEnd={onLoadEnd} style={styles.image} source={{ uri: selectedCountry.imageUrl }} />
                 </View>
                 {countryOptions.length > 0 ? (
                     <View style={styles.buttonGroupContainer}>
@@ -88,10 +92,11 @@ const GameDisplay = props => {
                         disabled={countryPressed === '' ? true : false}
                         titleStyle={{ fontSize: 18 }}
                     />
-                    <Banner />
                 </View>
             </View>
         </ScrollView>
+        <Banner />
+        </>
     );
 }
 

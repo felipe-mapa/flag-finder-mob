@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { StyleSheet, View, Alert, Platform, StatusBar } from 'react-native'
+import { StyleSheet, View, Alert, StatusBar } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
+import { useStopwatch } from 'react-timer-hook';
 
 import Colors from '../components/layout/Colors'
 import TextDefault from '../components/layout/TextDefault';
@@ -9,54 +10,34 @@ import CustomActivityIndicator from '../components/CustomActivityIndicator'
 import * as quizActions from '../store/actions/quizAction'
 import GameDisplay from '../containers/GameDisplay'
 import GameOverlay from '../components/GameOverlay';
+import { Image } from 'react-native';
+
+  const getRandomId = () => {
+    var S4 = function () {
+      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    };
+    return S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4();
+  }
 
 const GameScreen = (props) => {
   const [questionNumber, setQuestionNumber] = useState(0)
-  const [isGameOn, setIsGameOn] = useState(false)
-  const [seconds, setSeconds] = useState(0);
   const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState(0)
   const [isLastOverlay, setIsLastOverlay] = useState(false)
   const [isOverlayVisible, setIsOverlayVisible] = useState(false)
   const [overlayMessage, setOverlayMessage] = useState()
-  const [randomisedCountries, setRandomisedCountries] = useState([])
-  const [date, setDate] = useState()
   const [isHighScore, setIsHighScore] = useState(false)
-  const [playerId, setPlayerId] = useState()
+  const [gameId, setGameId] = useState('')
 
   const numberOfQuestions = props.navigation.state.params.numberOfQuestions
+
+  const {start, pause, reset, seconds} = useStopwatch({autostart: false})
 
   // useSelector
   const countries = useSelector(state => state.countries.loadedCountries)
   const scores = useSelector(state => state.quiz.topScores)
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (countries.length > 1) {
-
-      let countryList = []
-      let canBeOptions = countries.map(c => c.slug)
-
-      for (x = 0; x < numberOfQuestions; x++) {
-        countryList = countryList.concat(canBeOptions[Math.floor(Math.random() * canBeOptions.length)])
-        canBeOptions = canBeOptions.filter(val => !countryList.includes(val))
-      }
-      setDateHandler()
-      setRandomisedCountries(countryList)
-      setIsGameOn(true)
-      createPlayerID()
-    }
-  }, [countries, randomisedCountries < 1])
-
-  // CREATE PLAYER ID
-  const createPlayerID = () => {
-    var S4 = function () {
-      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-    };
-    return setPlayerId(S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
-  }
-
-  // SET DATE
-  const setDateHandler = () => {
+  const date = useMemo(() => {
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1;
@@ -72,36 +53,61 @@ const GameScreen = (props) => {
       yy = yy - 100
     }
     var today = dd + '/' + mm + '/' + yy;
-    setDate(today)
-  }
 
-  // TIMER
-  useEffect(() => {
-    let interval = null;
-    if (isGameOn) {
-      interval = setInterval(() => {
-        setSeconds(seconds => seconds + 1);
-      }, 1000);
-    } else if (!isGameOn && seconds !== 0) {
-      clearInterval(interval);
+    return today;
+  }, [])
+
+  const randomisedCountries = useMemo(() => {
+    if (countries.length === 0) {
+      return []
     }
-    return () => clearInterval(interval);
-  }, [isGameOn, seconds]);
+
+    if (gameId === '') {
+      return [];
+    }
+
+    let countryList = []
+    let canBeOptions = countries
+
+    for (x = 0; x < numberOfQuestions; x++) {
+      const randomCountry = Math.floor(Math.random() * canBeOptions.length);
+      const newCountry = canBeOptions[randomCountry]
+
+      // needs a callback to see the effect :/
+      Image.prefetch(newCountry.imageUrl, () => {
+        countryList = [...countryList, newCountry.slug]
+        canBeOptions = canBeOptions.filter(val => val.slug !== newCountry.slug)
+      })
+    }
+
+    return countryList;
+  }, [countries, gameId])
+
+  useEffect(() => {
+    if (randomisedCountries === 0) {
+      return;
+    }
+    if (gameId !== '') {
+      return;
+    }
+    start()
+    setGameId(getRandomId())
+  }, [gameId, randomisedCountries])
 
   // EXIT
   const exitHandler = () => {
     if (isLastOverlay) {
       //props.navigation.goBack()
     } else {
-      setIsGameOn(false)
+      pause()
       Alert.alert(
         'Are you sure you want to leave?',
         'The game will not be saved',
         [
-          { text: 'Stay', onPress: () => setIsGameOn(true), style: 'cancel' },
+          { text: 'Stay', onPress: start, style: 'cancel' },
           { text: 'Leave', onPress: () => props.navigation.goBack() },
         ],
-        { onDismiss: () => setIsGameOn(true) }
+        { onDismiss: start }
       )
     }
   }
@@ -125,14 +131,14 @@ const GameScreen = (props) => {
     }
     setNumberOfCorrectAnswers(numberOfCorrects)
     setIsOverlayVisible(true)
-    setIsGameOn(false)
+    pause()
     setIsOverlayVisible(true)
   }
 
   //SUBMIT ANSWER
   const submitAnswerHandler = () => {
     setIsOverlayVisible(false)
-    setIsGameOn(true)
+    start()
     setQuestionNumber(questionNumber + 1)
   }
 
@@ -218,20 +224,19 @@ const GameScreen = (props) => {
   // SUBMIT SCORE
   const submitScore = (playerName) => {
     //id, userName, totalScore, totalNum, time, date
-    dispatch(quizActions.addScore(playerId, playerName, numberOfCorrectAnswers, numberOfQuestions, seconds, date))
+    dispatch(quizActions.addScore(getRandomId(), playerName, numberOfCorrectAnswers, numberOfQuestions, seconds, date))
     setIsOverlayVisible(false)
     goToMenu()
   }
 
   // PLAY AGAIN
   const playAgainHandler = () => {
+    reset()
     setIsLastOverlay(false)
-    setRandomisedCountries(0)
     setNumberOfCorrectAnswers(0)
-    setSeconds(0)
     setIsOverlayVisible(false)
     setQuestionNumber(0)
-    setIsGameOn(true)
+    setGameId('')
     setIsHighScore(false)
   }
 
@@ -255,19 +260,19 @@ const GameScreen = (props) => {
       />
       <View style={styles.topBar}>
         <AntDesign name="arrowleft" size={30} color="#fff" onPress={() => exitHandler()} />
-        <TextDefault style={styles.text}>
+        <TextDefault style={styles.title}>
           Question {questionNumber + 1} / {numberOfQuestions}
         </TextDefault>
-        <TextDefault style={styles.text}>
-          {seconds} seconds
+        <TextDefault style={styles.timer}>
+          {Math.floor(seconds)} seconds
         </TextDefault>
       </View>
-      {randomisedCountries < 1
+      {randomisedCountries.length === 0
         ? <CustomActivityIndicator />
         :
         <GameDisplay
-          isLoading={() => setIsGameOn(false)}
-          isLoaded={() => setIsGameOn(true)}
+          onLoadStart={pause}
+          onLoadEnd={start}
           country={randomisedCountries[questionNumber]}
           submitAnswer={(selectedCountry, rightAnswer) => checkAnswerHandler(selectedCountry, rightAnswer)}
         />
@@ -283,19 +288,24 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.greyLight,
   },
   topBar: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: StatusBar.currentHeight ?? 0,
     paddingHorizontal: 10,
-    height: StatusBar.currentHeight * 2.5,
-    display: 'flex',
+    height: StatusBar.currentHeight * 3,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     backgroundColor: Colors.primaryColorDark,
     alignItems: "center"
   },
-  text: {
+  title: {
     color: '#fff',
-    fontSize: 18
+    fontSize: 18,
+    marginLeft: 10
   },
+  timer: {
+    flex: 1, 
+    color: '#fff',
+    fontSize: 18,
+    textAlign: 'right'
+  }
 })
 
 GameScreen.navigationOptions = () => {
