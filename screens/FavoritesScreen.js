@@ -23,23 +23,26 @@ const FavoriteScreen = (props) => {
   }, [dispatch]);
 
   const selectItemHandler = (countrySelected) => {
+    console.log('pressed')
     props.navigation.navigate('Country', countrySelected)
   }
 
   return (
     <View style={styles.screen}>
       <Banner />
-      {favoriteInData.length > 0 ?
-        <CustomFlatList
+      <View style={styles.content}>
+        {favoriteInData.length > 0 ?
+          <CustomFlatList
           data={favoriteCountries}
           length={favoriteCountries.length}
-          onPress={ selectItemHandler}
-        />
-        :
-        <EmptyPage navigation={props.navigation} page="Search" title="SEARCH A FLAG">
-          You still don't have any flag added to Favorites. Start adding now.
-        </EmptyPage>
-      }
+          onPress={selectItemHandler}
+          />
+          :
+          <EmptyPage navigation={props.navigation} page="Search" title="SEARCH A FLAG">
+            You still don't have any flag added to Favorites. Start adding now.
+          </EmptyPage>
+        }
+      </View>
     </View>
   );
 }
@@ -49,6 +52,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
     backgroundColor: Colors.greyLight
+  },
+  content: {
+    paddingTop: 20,
+    flex: 1,
   }
 })
 

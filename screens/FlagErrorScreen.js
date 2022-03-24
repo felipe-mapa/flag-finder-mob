@@ -64,7 +64,6 @@ const FlagErrorScreen = () => {
             <TextDefault style={styles.label}>Your message below</TextDefault>
             <Input
               multiline={true}
-              errorMessage={messageToSend.length < 5 ? "Message must to have more than 5 characters" : '   '}
               value={messageToSend}
               onChangeText={textChangeHandler.bind(this)}
               onSubmitEditing={submitHandler.bind(this)}

@@ -28,22 +28,21 @@ const CustomFlatList = (props) => {
     if (props.data.length === 1) {
         const countryFound = props.data[0];
         return (
-            <TouchableOpacity
-                style={styles.screen}
-                onPress={() => props.onPress(countryFound)}
-            >
-                <View style={styles.flagContainerSingle}>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            style={styles.image}
-                            source={{ uri: countryFound.imageUrl }}
-                        />
+            <View style={styles.screen}>
+                <TouchableOpacity onPress={() => props.onPress(countryFound)}>
+                    <View style={styles.flagContainerSingle}>
+                        <View style={styles.imageContainer}>
+                            <Image
+                                style={styles.image}
+                                source={{ uri: countryFound.imageUrl }}
+                            />
+                        </View>
+                        <TextDefault style={styles.textSingle}>
+                            {countryFound.name}
+                        </TextDefault>
                     </View>
-                    <TextDefault style={styles.textSingle}>
-                        {countryFound.name}
-                    </TextDefault>
-                </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
+            </View>
         );
     }
 
