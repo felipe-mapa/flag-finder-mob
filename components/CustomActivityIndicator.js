@@ -10,7 +10,7 @@ import Colors from './layout/Colors'
 const CustomActivityIndicator = () => {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color={Colors.primaryColorDark} />
+        <ActivityIndicator size="large" color={Colors.primaryColor} />
       </View>
     )
 }

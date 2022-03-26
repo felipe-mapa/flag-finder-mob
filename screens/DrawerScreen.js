@@ -26,7 +26,7 @@ const DrawerScreen = (props) => {
             </View>
             <View style={styles.container}>
                 <TextDefault style={styles.containerBottom}>
-                    Developed with <Foundation name="heart" size={18} color={Colors.primaryColorLight} /> by <TextDefault style={styles.clickable} onPress={() => Linking.openURL('https://pavanela.com')}>pavanela.com</TextDefault>
+                    Developed with <Foundation name="heart" size={18} color={Colors.secondaryColor} /> by <TextDefault style={styles.clickable} onPress={() => Linking.openURL('https://pavanela.com')}>pavanela.com</TextDefault>
                 </TextDefault>
                 <TextDefault style={styles.textBottom}>
                     <TextDefault style={styles.textBottomWhite}>Version: </TextDefault>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     screen: {
         paddingHorizontal: '7%',
         flex: 1,
-        backgroundColor: Colors.primaryColorDark,
+        backgroundColor: Colors.primaryColor,
         display: "flex",
         justifyContent: "space-between"
     },
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 20,
         borderBottomWidth: 3,
-        borderColor: Colors.primaryColorLight,
+        borderColor: Colors.secondaryColor,
         margin: 5
     },
     containerBottom: {
@@ -62,17 +62,17 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     textBottom: {
-        color: Colors.primaryColorLight
+        color: Colors.secondaryColor
     },
     textBottomWhite: {
         color: '#fff'
     },
     clickable: {
-        color: Colors.primaryColorLight,
+        color: Colors.secondaryColor,
         borderBottomWidth: 2,
         textDecorationLine: 'underline',
         textDecorationStyle: 'solid',
-        textDecorationColor: Colors.primaryColorLight,
+        textDecorationColor: Colors.secondaryColor,
         fontSize: 18,
     },
 })

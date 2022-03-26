@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     marginTop: 10,
-    backgroundColor: Colors.primaryColorDark,
+    backgroundColor: Colors.primaryColor,
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingBottom: 4,
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   containerTrans: {
     flexDirection: 'row',
     marginTop: 10,
-    backgroundColor: Colors.primaryColorLight,
+    backgroundColor: Colors.secondaryColor,
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingBottom: 4,

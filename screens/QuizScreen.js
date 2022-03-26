@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { StyleSheet, View, Dimensions, Text } from 'react-native';
+import { StyleSheet, View, Dimensions, StatusBar } from 'react-native';
 import { Button, Overlay } from 'react-native-elements'
 
 import Colors from '../components/layout/Colors'
@@ -26,6 +26,7 @@ const quizScreen = (props) => {
 
     return (
         <View style={styles.screen}>
+            <StatusBar backgroundColor={Colors.primaryColor} />
             <Overlay
                 isVisible={isOverlayVisible}
                 onBackdropPress={() => setIsOverlayVisible(false)}
@@ -134,7 +135,7 @@ quizScreen.navigationOptions = () => {
         headerTitle: 'Flag Quiz',
         headerTintColor: 'white',
         headerStyle: {
-            backgroundColor: Colors.primaryColorDark,
+            backgroundColor: Colors.primaryColor,
             headerTitleStyle: {
                 fontWeight: 'bold',
                 fontFamily: 'comfortaa-bold',

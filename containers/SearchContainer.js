@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { ScrollView, Dimensions, View, Image, StatusBar, StyleSheet, Keyboard } from 'react-native';
+import { ScrollView, Dimensions, View, Image, StyleSheet, Keyboard, StatusBar } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { showMessage } from "react-native-flash-message";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -18,7 +18,6 @@ const SearchContainer = (props) => {
     const countries = useSelector(state => state.countries.loadedCountries);
     const dataTags = useSelector(state => state.countries.loadedTags);
     const tags = useSelector(state => state.countries.tagsFilter);
-    const safeAreaOnTop = StatusBar.currentHeight ?? 0;
     const dispatch = useDispatch();
 
     // REMOVE TAG
@@ -193,14 +192,14 @@ const SearchContainer = (props) => {
 
     return (
         <View>
-            <StatusBar backgroundColor="blue" barStyle="light-content" />
+            <StatusBar backgroundColor={Colors.secondaryColor} />
             <LinearGradient
-                colors={[Colors.primaryColorLight, Colors.primaryColorLight, Colors.greyLight]}
+                colors={[Colors.secondaryColor, Colors.secondaryColor, Colors.greyLight]}
                 style={styles.screen}
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-                <View style={[styles.screen, {paddingTop: safeAreaOnTop / 2}]}>
+                <View style={styles.screen}>
                     <View style={styles.imgContainer}>
                         <Image source={require('../assets/flagFinder.png')} style={styles.titleImage} resizeMode='contain' />
                     </View>

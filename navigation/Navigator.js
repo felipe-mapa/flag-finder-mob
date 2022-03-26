@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions } from 'react-native'
+import { Dimensions, StatusBar } from 'react-native'
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs'
@@ -21,7 +21,7 @@ const screenWidth = Dimensions.get('screen').width;
 
 const defaultStackNavOptions = {
     headerStyle: {
-        backgroundColor: Colors.primaryColorDark
+        backgroundColor: Colors.primaryColor
     },
     headerTitleStyle: {
         fontFamily: 'comfortaa-bold'
@@ -47,7 +47,10 @@ const CountryNavigator = createStackNavigator({
 // FAVORITES NAVIGATION
 const FavNavigator = createStackNavigator({
     Favorites: {
-        screen: FavoritesScreen
+        screen: FavoritesScreen,
+        navigationOptions: {
+            backgroundColor: Colors.primaryColor,
+        }
     },
     Country: CountryInfoScreen
 })
@@ -57,9 +60,10 @@ const QuizNavigator = createStackNavigator({
     Quiz: {
         screen: QuizScreen,
         navigationOptions: {
+            backgroundColor: Colors.primaryColor,
             headerTitleStyle: {
                 textAlign: "center",
-                flex: 1
+                flex: 1,
             },
         }
     },
@@ -73,7 +77,7 @@ const CountriesBottomNavigator = createBottomTabNavigator({
         screen: CountryNavigator,
         navigationOptions: {
             tabBarIcon: tabInfo => {
-                return <Ionicons name="md-search" size={25} color={tabInfo.tintColor} />
+                return <Ionicons name="search" size={25} color={tabInfo.tintColor} />
             }
         },
         tabBarLabel: 'Search'
@@ -82,7 +86,7 @@ const CountriesBottomNavigator = createBottomTabNavigator({
         screen: FavNavigator,
         navigationOptions: {
             tabBarIcon: tabInfo => {
-                return <Ionicons name="ios-heart-empty" size={25} color={tabInfo.tintColor} />
+                return <Ionicons name="heart-outline" size={25} color={tabInfo.tintColor} />
             }
         }
     },
@@ -90,7 +94,7 @@ const CountriesBottomNavigator = createBottomTabNavigator({
         screen: QuizNavigator,
         navigationOptions: {
             tabBarIcon: tabInfo => {
-                return <Ionicons name="logo-game-controller-b" size={25} color={tabInfo.tintColor} />
+                return <Ionicons name="game-controller-outline" size={25} color={tabInfo.tintColor} />
             },
         }
     },
@@ -98,14 +102,14 @@ const CountriesBottomNavigator = createBottomTabNavigator({
         screen: QuizScreen,
         navigationOptions: ({ navigation }) => ({
             tabBarIcon: tabInfo => {
-                return <Ionicons name="ios-more" size={25} color={tabInfo.tintColor} />
+                return <Ionicons name="ellipsis-horizontal-sharp" size={25} color={tabInfo.tintColor} />
             },
             tabBarOnPress: () => { navigation.openDrawer() }
         }),
     },
 }, {
     tabBarOptions: {
-        activeBackgroundColor: Colors.primaryColorDark,
+        activeBackgroundColor: Colors.primaryColor,
         activeTintColor: 'white',
         inactiveBackgroundColor: 'white',
         inactiveTintColor: 'black'
@@ -120,7 +124,7 @@ const DrawerNavigator = createDrawerNavigator(
     {
         drawerPosition: "right",
         contentComponent: DrawerScreen,
-        drawerWidth: screenWidth / 2
+        drawerWidth: screenWidth / 2,
     }
 )
 

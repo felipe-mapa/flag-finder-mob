@@ -64,12 +64,12 @@ const GameDisplay = props => {
                                         title={itemData.item}
                                         onPress={() => setCountryPressed(itemData.item)}
                                         buttonStyle={{
-                                            backgroundColor: countryPressed === itemData.item ? Colors.primaryColorDark : Colors.primaryColorLight,
+                                            backgroundColor: countryPressed === itemData.item ? Colors.primaryColor : Colors.secondaryColor,
                                             marginVertical: 10
                                         }}
                                         titleStyle={{
                                             fontSize: 18,
-                                            color: countryPressed === itemData.item ? '#fff' : Colors.primaryColorDark
+                                            color: countryPressed === itemData.item ? '#fff' : Colors.primaryColor
                                         }}
                                     />
                                 )

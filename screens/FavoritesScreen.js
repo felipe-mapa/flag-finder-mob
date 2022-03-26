@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 import Colors from '../components/layout/Colors'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -28,6 +28,7 @@ const FavoriteScreen = (props) => {
 
   return (
     <View style={styles.screen}>
+      <StatusBar backgroundColor={Colors.primaryColor} />
       <Banner />
       <View style={styles.content}>
         {favoriteInData.length > 0 ?
@@ -63,7 +64,7 @@ FavoriteScreen.navigationOptions = () => {
     headerTitle: 'Favorite Countries',
     headerTintColor: 'white',
     headerStyle: {
-      backgroundColor: Colors.primaryColorDark,
+      backgroundColor: Colors.primaryColor,
       headerTitleStyle: {
         fontWeight: 'bold',
         fontFamily: 'comfortaa-bold',

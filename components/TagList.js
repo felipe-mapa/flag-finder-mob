@@ -15,7 +15,7 @@ const TagList = props => {
 
 const styles = StyleSheet.create({
   block: {
-    backgroundColor: Colors.primaryColorDark,
+    backgroundColor: Colors.primaryColor,
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 2,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     color: "#fff",
     textAlign: "center",
-    backgroundColor: Colors.primaryColorLight,
+    backgroundColor: Colors.secondaryColor,
     height: 20,
     width: 20,
     borderRadius: 40,

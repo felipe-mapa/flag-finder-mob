@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, StatusBar } from 'react-native'
 import { ButtonGroup } from 'react-native-elements';
 
 import Colors from '../components/layout/Colors'
@@ -61,6 +61,8 @@ const ScoresScreen = (props) => {
 
   return (
     <ScrollView style={styles.screen}>
+      <StatusBar backgroundColor={Colors.primaryColor} />
+  
       <Banner />
 
       <ButtonGroup
@@ -73,7 +75,7 @@ const ScoresScreen = (props) => {
           fontSize: 16
         }}
         selectedButtonStyle={{
-          backgroundColor: Colors.primaryColorDark
+          backgroundColor: Colors.primaryColor
         }}
         selectedTextStyle={{
           fontSize: 20
@@ -193,7 +195,7 @@ ScoresScreen.navigationOptions = () => {
     headerTitle: 'Top Scores',
     headerTintColor: 'white',
     headerStyle: {
-      backgroundColor: Colors.primaryColorDark,
+      backgroundColor: Colors.primaryColor,
       headerTitleStyle: {
         fontWeight: 'bold',
         fontFamily: 'comfortaa-bold',

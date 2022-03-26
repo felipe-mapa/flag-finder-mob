@@ -88,12 +88,12 @@ const ImageSelector = props => {
                 <Button
                     title="Take photo"
                     onPress={takeImageHandler}
-                    buttonStyle={{ backgroundColor: Colors.primaryColorDark }}
+                    buttonStyle={{ backgroundColor: Colors.primaryColor }}
                 />
                 <Button
                     title="Open gallery"
                     onPress={galleryImageHandler}
-                    buttonStyle={{ backgroundColor: Colors.primaryColorDark }}
+                    buttonStyle={{ backgroundColor: Colors.primaryColor }}
                 />
             </View>
         </View>

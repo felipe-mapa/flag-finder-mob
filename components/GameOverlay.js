@@ -31,7 +31,7 @@ const GameOverlay = props => {
                                 onPress={() => props.submitHandler()}
                                 titleStyle={{
                                     fontSize: 20,
-                                    color: Colors.primaryColorDark,
+                                    color: Colors.primaryColor,
                                     textAlign: 'right'
                                 }}
                             />
@@ -48,7 +48,7 @@ const GameOverlay = props => {
                                         <Entypo
                                             name='emoji-happy'
                                             size={24}
-                                            color={Colors.primaryColorDark}
+                                            color={Colors.primaryColor}
                                         />
                                     }
                                 />
@@ -58,7 +58,7 @@ const GameOverlay = props => {
                                     onPress={() => props.submitScore(playerName)}
                                     titleStyle={{
                                         fontSize: 20,
-                                        color: Colors.primaryColorDark,
+                                        color: Colors.primaryColor,
                                         textAlign: 'right'
                                     }}
                                 />
@@ -75,7 +75,7 @@ const GameOverlay = props => {
                                     }}
                                     titleStyle={{
                                         fontSize: 20,
-                                        color: Colors.primaryColorDark,
+                                        color: Colors.primaryColor,
                                         textAlign: 'right'
                                     }}
                                 />
@@ -87,7 +87,7 @@ const GameOverlay = props => {
                                     }}
                                     titleStyle={{
                                         fontSize: 20,
-                                        color: Colors.primaryColorDark,
+                                        color: Colors.primaryColor,
                                         textAlign: 'right'
                                     }}
                                 />

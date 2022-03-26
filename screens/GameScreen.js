@@ -247,6 +247,7 @@ const GameScreen = (props) => {
 
   return (
     <View style={styles.screen}>
+      <StatusBar backgroundColor={Colors.primaryColor} />
       <GameOverlay
         isVisible={isOverlayVisible}
         overlayMessage={overlayMessage}
@@ -255,11 +256,11 @@ const GameScreen = (props) => {
         submitHandler={(questionNumber + 1) === numberOfQuestions ? () => checkIfTopTen() : () => submitAnswerHandler()}
         submitScore={(playerName) => submitScore(playerName)}
         isHighScore={isHighScore}
-        playAgain={() => playAgainHandler()}
-        goToMenu={() => goToMenu()}
+        playAgain={playAgainHandler}
+        goToMenu={goToMenu}
       />
       <View style={styles.topBar}>
-        <AntDesign name="arrowleft" size={30} color="#fff" onPress={() => exitHandler()} />
+        <AntDesign name="arrowleft" size={30} color="#fff" onPress={exitHandler} />
         <TextDefault style={styles.title}>
           Question {questionNumber + 1} / {numberOfQuestions}
         </TextDefault>
@@ -288,11 +289,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.greyLight,
   },
   topBar: {
-    paddingTop: StatusBar.currentHeight ?? 0,
-    paddingHorizontal: 10,
-    height: StatusBar.currentHeight * 3,
+    padding: 10,
     flexDirection: 'row',
-    backgroundColor: Colors.primaryColorDark,
+    backgroundColor: Colors.primaryColor,
     alignItems: "center"
   },
   title: {
@@ -313,7 +312,7 @@ GameScreen.navigationOptions = () => {
     headerTitle: 'Flag Quiz',
     headerTintColor: 'white',
     headerStyle: {
-      backgroundColor: Colors.primaryColorDark,
+      backgroundColor: Colors.primaryColor,
       headerTitleStyle: {
         fontWeight: 'bold',
         fontFamily: 'comfortaa-bold',

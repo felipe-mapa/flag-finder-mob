@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 
 import CountriesDisplay from '../containers/CountriesDisplay';
 import SearchContainer from '../containers/SearchContainer';

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import { StyleSheet, View, Image, ScrollView, Dimensions } from "react-native";
+import { StyleSheet, View, Image, ScrollView, Dimensions, StatusBar } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
@@ -76,6 +76,7 @@ const CountryInfoScreen = (props) => {
 
     return (
         <ScrollView style={styles.screen}>
+            <StatusBar backgroundColor={country.mainColor} />
             <View>
                 <View style={styles.block}>
                     <View style={styles.imageContainer}>
@@ -253,7 +254,7 @@ CountryInfoScreen.navigationOptions = (navData) => {
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
                     title='Favorite'
-                    iconName={isFavorite ? "ios-heart" : "ios-heart-empty"}
+                    iconName={isFavorite ? "heart" : "heart-outline"}
                     onPress={toggleFavorite}
                 />
             </HeaderButtons>
@@ -261,7 +262,7 @@ CountryInfoScreen.navigationOptions = (navData) => {
         headerStyle: {
             backgroundColor:
                 country.mainColor === ""
-                    ? Colors.primaryColorDark
+                    ? Colors.primaryColor
                     : country.mainColor,
             headerTitleStyle: {
                 fontWeight: "bold",

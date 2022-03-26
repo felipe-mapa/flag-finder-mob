@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, StatusBar } from 'react-native';
 import { Input, Button } from 'react-native-elements'
 import Emoji from 'react-native-emoji';
 import { showMessage } from "react-native-flash-message";
@@ -52,6 +52,7 @@ const FlagErrorScreen = () => {
 
   return (
     <ScrollView>
+      <StatusBar backgroundColor={Colors.primaryColor} />
       <Banner />
       <View style={styles.screen}>
         <ScrollView>
@@ -76,7 +77,7 @@ const FlagErrorScreen = () => {
               disabled={messageToSend.length < 5}
               onPress={submitHandler.bind(this)}
               buttonStyle={{ backgroundColor: Colors.primaryColor }}
-              disabledStyle={{ backgroundColor: Colors.primaryColorLight, paddingHorizontal: 10 }}
+              disabledStyle={{ backgroundColor: Colors.secondaryColor, paddingHorizontal: 10 }}
             />
           </View>
         </ScrollView>
@@ -111,7 +112,7 @@ FlagErrorScreen.navigationOptions = () => {
     headerTitle: 'Flag an Error',
     headerTintColor: 'white',
     headerStyle: {
-      backgroundColor: Colors.primaryColorDark,
+      backgroundColor: Colors.primaryColor,
       headerTitleStyle: {
         fontWeight: 'bold',
         fontFamily: 'comfortaa-bold',
