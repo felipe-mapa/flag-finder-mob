@@ -38,12 +38,14 @@ const SearchScreen = (props) => {
     }, [])
 
     return (
-        <SafeAreaView style={styles.screen}>
+        <>
             <StatusBar backgroundColor={Colors.secondaryColor} />
-            <SearchContainer navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} />
-            <CountriesDisplay navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} onPress={selectItemHandler} />
-            <Banner />
-        </SafeAreaView>
+            <SafeAreaView style={styles.screen}>
+                <SearchContainer navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} />
+                <CountriesDisplay navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} onPress={selectItemHandler} />
+                <Banner />
+            </SafeAreaView>
+        </>
     );
 };
 

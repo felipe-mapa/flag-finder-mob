@@ -17,6 +17,8 @@ const CountryInfoScreen = (props) => {
     // COUNTRY
     const country = useMemo(() => props.navigation.state.params, []);
 
+    const mainColor = useMemo(() => country.mainColor !== '' ? country.mainColor : Colors.primaryColor, [country, Colors])
+
     // SELECTORS
     const allTags = useSelector((state) => state.countries.loadedTags);
     const allContinents = useSelector(
@@ -60,9 +62,10 @@ const CountryInfoScreen = (props) => {
     const toggleFavHandler = () => {
         if (fav.some((c) => c === country.slug)) {
             dispatch(countriesActions.delFavorite(country.slug));
-        } else {
-            dispatch(countriesActions.addFavorite(country.slug));
+            return
         }
+
+        dispatch(countriesActions.addFavorite(country.slug));
     };
     useEffect(() => {
         props.navigation.setParams({ toggleFav: toggleFavHandler });
@@ -76,7 +79,7 @@ const CountryInfoScreen = (props) => {
 
     return (
         <ScrollView style={styles.screen}>
-            <StatusBar backgroundColor={country.mainColor} />
+            <StatusBar backgroundColor={mainColor} />
             <View>
                 <View style={styles.block}>
                     <View style={styles.imageContainer}>
