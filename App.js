@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { AppLoading } from 'expo'
+import React, { useState, useEffect } from 'react';
+import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font'
 import ReduxThunk from 'redux-thunk';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
@@ -28,26 +28,39 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
-//FETCH FONT
-const fetchFonts = () => {
-  return Font.loadAsync({
-    'comfortaa': require('./assets/fonts/Comfortaa-Regular.ttf'),
-    'comfortaa-bold': require('./assets/fonts/Comfortaa-Bold.ttf'),
-    'comfortaa-light': require('./assets/fonts/Comfortaa-Light.ttf')
-  })
-}
-
 const App = () => {
   //LOAD FONT
   const [fontLoaded, setFontLoaded] = useState(false)
+  
+  useEffect(() => {
+    let mounted = true;
+    //FETCH FONT
+    (async() =>{
+      try{
+        await Font.loadAsync({
+          'comfortaa': require('./assets/fonts/Comfortaa-Regular.ttf'),
+          'comfortaa-bold': require('./assets/fonts/Comfortaa-Bold.ttf'),
+          'comfortaa-light': require('./assets/fonts/Comfortaa-Light.ttf')
+        })
+
+        if (mounted) {
+          setFontLoaded(true)
+        }
+      } catch(err) {
+        console.log(err)
+        if (mounted) {
+          setFontLoaded(true)
+        }
+      }
+    })()
+
+    return () => mounted =false
+  }, [])
+
   if (!fontLoaded) {
-    return (
-      <AppLoading
-        startAsync={fetchFonts}
-        onFinish={() => setFontLoaded(true)}
-      />
-    )
+    return <AppLoading />
   }
+
 
   return (
     <Provider store={store}>
