@@ -6,6 +6,8 @@ import { Foundation } from '@expo/vector-icons';
 import Colors from '../components/layout/Colors'
 import TextDefault from '../components/layout/TextDefault'
 
+import {expo} from '../app.json'
+
 const DrawerScreen = (props) => {
 
     return (
@@ -30,7 +32,7 @@ const DrawerScreen = (props) => {
                 </TextDefault>
                 <TextDefault style={styles.textBottom}>
                     <TextDefault style={styles.textBottomWhite}>Version: </TextDefault>
-                    2.1.0
+                    {expo.version}
                 </TextDefault>
             </View>
         </SafeAreaView>

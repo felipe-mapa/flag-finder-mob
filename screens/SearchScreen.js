@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 
 import CountriesDisplay from '../containers/CountriesDisplay';
 import SearchContainer from '../containers/SearchContainer';
@@ -39,6 +39,7 @@ const SearchScreen = (props) => {
 
     return (
         <SafeAreaView style={styles.screen}>
+            <StatusBar backgroundColor={Colors.secondaryColor} />
             <SearchContainer navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} />
             <CountriesDisplay navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} onPress={selectItemHandler} />
             <Banner />

@@ -30,7 +30,11 @@ const GameScreen = (props) => {
 
   const numberOfQuestions = props.navigation.state.params.numberOfQuestions
 
-  const {start, pause, reset, seconds} = useStopwatch({autostart: false})
+  const {start, pause, reset, seconds, minutes, hours} = useStopwatch({autostart: false})
+
+  const secondsPassed = useMemo(()=> {
+    return seconds + minutes * 60 + hours * 60
+  },[seconds, minutes, hours])
 
   // useSelector
   const countries = useSelector(state => state.countries.loadedCountries)
@@ -160,7 +164,7 @@ const GameScreen = (props) => {
             return true
           } else {
             // Check for time
-            if (numberOfCorrectAnswers === c.totalScore && seconds < c.time) {
+            if (numberOfCorrectAnswers === c.totalScore && secondsPassed < c.time) {
               return true
             } else {
               return false
@@ -198,7 +202,7 @@ const GameScreen = (props) => {
       setOverlayMessage(
         <View>
           <TextDefault>
-            Number of correct answers: {numberOfCorrectAnswers}/{numberOfQuestions} in {seconds} seconds!
+            Number of correct answers: {numberOfCorrectAnswers}/{numberOfQuestions} in {secondsPassed} seconds!
           </TextDefault>
           <TextDefault>
             Well done, you are top 10 in the scoreboard. Please write your name below:
@@ -210,7 +214,7 @@ const GameScreen = (props) => {
       setOverlayMessage(
         <View>
           <TextDefault>
-            Number of right answers: {numberOfCorrectAnswers}/{numberOfQuestions} in {seconds} seconds!
+            Number of right answers: {numberOfCorrectAnswers}/{numberOfQuestions} in {secondsPassed} seconds!
         </TextDefault>
           <TextDefault>
             Sorry, you couldn't make into the top 10. Try again.
@@ -224,7 +228,7 @@ const GameScreen = (props) => {
   // SUBMIT SCORE
   const submitScore = (playerName) => {
     //id, userName, totalScore, totalNum, time, date
-    dispatch(quizActions.addScore(getRandomId(), playerName, numberOfCorrectAnswers, numberOfQuestions, seconds, date))
+    dispatch(quizActions.addScore(getRandomId(), playerName, numberOfCorrectAnswers, numberOfQuestions, secondsPassed, date))
     setIsOverlayVisible(false)
     goToMenu()
   }
@@ -265,7 +269,7 @@ const GameScreen = (props) => {
           Question {questionNumber + 1} / {numberOfQuestions}
         </TextDefault>
         <TextDefault style={styles.timer}>
-          {Math.floor(seconds)} seconds
+          {Math.floor(secondsPassed)} seconds
         </TextDefault>
       </View>
       {randomisedCountries.length === 0

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { ScrollView, Dimensions, View, Image, StyleSheet, Keyboard, StatusBar } from 'react-native';
+import { ScrollView, Dimensions, View, Image, StyleSheet, Keyboard } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { showMessage } from "react-native-flash-message";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -192,7 +192,6 @@ const SearchContainer = (props) => {
 
     return (
         <View>
-            <StatusBar backgroundColor={Colors.secondaryColor} />
             <LinearGradient
                 colors={[Colors.secondaryColor, Colors.secondaryColor, Colors.greyLight]}
                 style={styles.screen}
