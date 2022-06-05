@@ -124,7 +124,8 @@ const DrawerNavigator = createDrawerNavigator(
     {
         drawerPosition: "right",
         contentComponent: DrawerScreen,
-        drawerWidth: screenWidth / 2,
+        drawerWidth: screenWidth,
+        drawerBackgroundColor: 'rbga(0,0,0,0.3)'
     }
 )
 
