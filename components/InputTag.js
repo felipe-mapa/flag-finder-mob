@@ -7,10 +7,10 @@ import Colors from './layout/Colors'
 const InputTag = props => {
 
   return (
-    <View style={props.loaded ? styles.container : styles.containerTrans}>
+    <View style={styles.container}>
       <TextInput
         placeholder="Eg. Star, Red, Bolivia, Asia, Union Jack"
-        placeholderTextColor={props.loaded ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.4)"}
+        placeholderTextColor={"rgba(255,255,255,0.8)"}
         onChangeText={props.change}
         value={props.value}
         style={styles.input}
@@ -19,9 +19,8 @@ const InputTag = props => {
         onSubmitEditing={props.submitted}
         returnKeyType='search'
         blurOnSubmit={false}
-        editable={props.loaded ? true : false}
       />
-      <Ionicons style={styles.icon} onPress={props.submitted} name="md-search" size={24} color={props.loaded ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.3)"}/>
+      <Ionicons style={styles.icon} onPress={props.submitted} name="md-search" size={24} color={"white"}/>
     </View>
   );
 }
@@ -31,17 +30,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 10,
     backgroundColor: Colors.primaryColor,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingBottom: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 20
-  },
-  containerTrans: {
-    flexDirection: 'row',
-    marginTop: 10,
-    backgroundColor: Colors.secondaryColor,
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingBottom: 4,

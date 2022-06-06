@@ -1,5 +1,12 @@
 import React, { useEffect, useMemo } from "react";
-import { StyleSheet, View, Image, ScrollView, Dimensions, StatusBar } from "react-native";
+import {
+    StyleSheet,
+    View,
+    Image,
+    ScrollView,
+    Dimensions,
+    StatusBar,
+} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
@@ -17,7 +24,11 @@ const CountryInfoScreen = (props) => {
     // COUNTRY
     const country = useMemo(() => props.navigation.state.params, []);
 
-    const mainColor = useMemo(() => country.mainColor !== '' ? country.mainColor : Colors.primaryColor, [country, Colors])
+    const mainColor = useMemo(
+        () =>
+            country.mainColor !== "" ? country.mainColor : Colors.primaryColor,
+        [country, Colors]
+    );
 
     // SELECTORS
     const allTags = useSelector((state) => state.countries.loadedTags);
@@ -30,7 +41,7 @@ const CountryInfoScreen = (props) => {
     // GET TAGS
     const countryTags = allTags
         .map((tag) => {
-            if (country.tags.find((t) => t === tag.slug)) {
+            if (country.tags.find((t) => t.slug === tag.slug)) {
                 return tag.name;
             } else {
                 return null;
@@ -42,18 +53,19 @@ const CountryInfoScreen = (props) => {
     // GET CONTINENT
     const continent = allContinents
         .map((conty) => {
-            if (country.continents.find((c) => c === conty.slug)) {
+            if (country.continents.find((c) => c.slug === conty.slug)) {
                 return conty.name;
             } else {
                 return null;
             }
         })
-        .filter((el) => el != null);
+        .filter((el) => el != null)
+        .join(", ");
 
     // GET MAP
     const mapRegion = {
-        latitude: country.latitude,
-        longitude: country.longitude,
+        latitude: parseFloat(country.latitude),
+        longitude: parseFloat(country.longitude),
         latitudeDelta: 80,
         longitudeDelta: 80,
     };
@@ -62,7 +74,7 @@ const CountryInfoScreen = (props) => {
     const toggleFavHandler = () => {
         if (fav.some((c) => c === country.slug)) {
             dispatch(countriesActions.delFavorite(country.slug));
-            return
+            return;
         }
 
         dispatch(countriesActions.addFavorite(country.slug));
@@ -79,7 +91,9 @@ const CountryInfoScreen = (props) => {
 
     return (
         <ScrollView style={styles.screen}>
-            <StatusBar backgroundColor={mainColor} />
+            <StatusBar backgroundColor={country.mainColor === null
+                    ? Colors.primaryColor
+                    : country.mainColor} />
             <View>
                 <View style={styles.block}>
                     <View style={styles.imageContainer}>
@@ -108,7 +122,11 @@ const CountryInfoScreen = (props) => {
                     )}
 
                     {country.continent !== "" && (
-                        <TextDefault>
+                        <TextDefault
+                            style={{
+                                textAlign: "left",
+                            }}
+                        >
                             <TextDefault style={styles.bold}>
                                 Continent:{" "}
                             </TextDefault>
@@ -189,8 +207,10 @@ const CountryInfoScreen = (props) => {
                                 <Marker
                                     title={country.name}
                                     coordinate={{
-                                        latitude: country.latitude,
-                                        longitude: country.longitude,
+                                        latitude: parseFloat(country.latitude),
+                                        longitude: parseFloat(
+                                            country.longitude
+                                        ),
                                     }}
                                 />
                             </MapView>
@@ -264,7 +284,7 @@ CountryInfoScreen.navigationOptions = (navData) => {
         ),
         headerStyle: {
             backgroundColor:
-                country.mainColor === ""
+                country.mainColor === null
                     ? Colors.primaryColor
                     : country.mainColor,
             headerTitleStyle: {

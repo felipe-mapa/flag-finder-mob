@@ -1,14 +1,9 @@
-import Country from "../../models/country";
-import Tag from "../../models/tag";
-import Continent from "../../models/continent";
 import { Alert, BackHandler } from "react-native";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
 
 import { insertFav, deleteFav, fetchFavs } from "../database/db";
+import { apiEndpoint } from "../../config/env";
 
-export const SET_COUNTRIES = "SET_COUNTRIES";
-export const SET_TAGS = "SET_TAGS";
-export const SET_CONTINENTS = "SET_CONTINENTS";
+export const SET_INITIAL_DATA = "SET_INITIAL_DATA";
 export const ADD_TAG = "ADD_TAG";
 export const DEL_TAG = "DEL_TAG";
 export const FILTER_COUNTRIES = "FILTER_COUNTRIES";
@@ -24,109 +19,30 @@ const serverError = () =>
         { cancelable: false }
     );
 
-export const fetchCountries = () => {
-    const firestore = getFirestore();
-    const countriesRef = collection(firestore, "countries");
-
+export const fetchAppData = (numberOfFetches = 0) => {
     return async (dispatch) => {
         try {
-            const countries = await getDocs(countriesRef);
+            const response = await fetch(apiEndpoint + "flagFinder/app");
 
-            const loadedCountries = [];
+            const data = await response.json();
 
-            countries.forEach(async (doc) => {
-                const data = doc.data();
-                const countryTags = [
-                    data.slug,
-                    ...data.tags,
-                    ...data.continents.map(continent=>continent.toLowerCase()),
-                ];
+            dispatch({ type: SET_INITIAL_DATA, ...data });
+        } catch (error) {
+            console.log('error', error.message)
 
-                loadedCountries.push(
-                    new Country(
-                        data.name,
-                        data.imageUrl,
-                        data.capital,
-                        data.continents,
-                        data.population,
-                        data.hdi,
-                        data.year,
-                        data.description,
-                        data.mainColor,
-                        parseFloat(data.latitude),
-                        parseFloat(data.longitude),
-                        countryTags,
-                        data.slug
-                    )
-                );
-            });
-
-            dispatch({ type: SET_COUNTRIES, countries: loadedCountries });
-        } catch (err) {
-            console.log("Network request failed on fetchCountries");
-            {
-                serverError;
+            if (numberOfFetches < 3) {
+                return fetchAppData(numberOfFetches + 1)()
             }
+
             throw err;
         }
-    };
-};
+    }
+}
 
-export const fetchTags = () => {
-    return async (dispatch) => {
-        try {
-            const firestore = getFirestore();
-            const tagsRef = collection(firestore, "tags");
-            const tags = await getDocs(tagsRef);
-
-            const loadedTags = [];
-
-            tags.forEach((doc) => {
-                const data = doc.data();
-                loadedTags.push(new Tag(data.name, data.slug));
-            });
-
-            dispatch({ type: SET_TAGS, tags: loadedTags });
-        } catch (err) {
-            console.log("Network request failed on fetchTags");
-            {
-                serverError;
-            }
-            throw err;
-        }
-    };
-};
-
-export const fetchContinents = () => {
-    return async (dispatch) => {
-        try {
-            const firestore = getFirestore();
-            const countriesRef = collection(firestore, "continents");
-            const countries = await getDocs(countriesRef);
-
-            const loadedContinents = [];
-
-            countries.forEach((doc) => {
-                const data = doc.data();
-
-                loadedContinents.push(new Continent(data.name, data.slug));
-            });
-
-            dispatch({ type: SET_CONTINENTS, continents: loadedContinents });
-        } catch (err) {
-            console.log("Network request failed on fetchContinents");
-            {
-                serverError;
-            }
-            throw err;
-        }
-    };
-};
-
-export const addTag = (slug) => {
+export const addTag = (tag) => {
     return {
         type: ADD_TAG,
-        tagSlug: slug,
+        tag: tag,
     };
 };
 

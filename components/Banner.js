@@ -5,6 +5,8 @@ import { AdMobBanner } from "expo-ads-admob";
 const Banner = (props) => {
   const [showAd, setShowAd] = useState(true);
 
+  return null;
+
   const bannerErrorHandler = (err) => {
     setShowAd(false);
   };

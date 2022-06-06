@@ -9,13 +9,15 @@ import TagList from '../components/TagList'
 import * as countriesActions from '../store/actions/countriesAction';
 import Colors from '../components/layout/Colors'
 import SearchHeading from '../components/layout/MainHeading'
+import useFilteredCountries from '../hooks/useFilteredCountries';
 
 const SearchContainer = (props) => {
-    const [tagsList, setTagsList] = useState([])
     const [newTag, setNewTag] = useState('')
-    const [filteredCountries, setFilteredCountries] = useState([])
+    const { filteredCountries } = useFilteredCountries();
 
-    const countries = useSelector(state => state.countries.loadedCountries);
+    // HEADER
+    const [heading, setHeading] = useState("All Flags")
+
     const dataTags = useSelector(state => state.countries.loadedTags);
     const tags = useSelector(state => state.countries.tagsFilter);
     const dispatch = useDispatch();
@@ -23,14 +25,11 @@ const SearchContainer = (props) => {
     // REMOVE TAG
     const removeTag = slug => {
         delTagHandler(slug)
-        setTagsList(currentTags => {
-            return currentTags.filter(tag => tag.slug !== slug)
-        })
     }
 
     // ADD TAG
-    const addTagHandler = useCallback((slug) => {
-        dispatch(countriesActions.addTag(slug))
+    const addTagHandler = useCallback((tag) => {
+        dispatch(countriesActions.addTag(tag))
     }, [dispatch])
 
     // DELETE TAG
@@ -42,30 +41,6 @@ const SearchContainer = (props) => {
     const changeHandler = enteredText => {
         setNewTag(enteredText)
     }
-
-    // LOAD TAGS
-    useEffect(() => {
-        loadTags()
-    }, [])
-    const loadTags = useCallback(async () => {
-        try {
-            await dispatch(countriesActions.fetchTags());
-        } catch (err) {
-            throw err
-        }
-    }, [dispatch]);
-
-    // LOAD CONTINENTS
-    useEffect(() => {
-        loadContinents()
-    }, [])
-    const loadContinents = useCallback(async () => {
-        try {
-            await dispatch(countriesActions.fetchContinents());
-        } catch (err) {
-            throw err
-        }
-    }, [dispatch]);
 
     // TEXT VALIDATION
     const onSubmitHandler = () => {
@@ -89,7 +64,7 @@ const SearchContainer = (props) => {
         const trimmedTag = newTag.toLowerCase().trim()
 
         // Check if already added
-        if (tagsList.find(t => t.name.toLowerCase() === trimmedTag)) {
+        if (tags.find(t => t.name.toLowerCase() === trimmedTag)) {
             onSubmit('Characteristic already added', false)
             return
         }
@@ -119,8 +94,7 @@ const SearchContainer = (props) => {
             const tagFound = dataTags.find(t => t.name.toLowerCase() === trimmedTag);
 
             if(tagFound) {
-                setTagsList(prevState=>[...prevState, tagFound])
-                addTagHandler(tagFound.slug)
+                addTagHandler(tagFound)
             }
 
             setNewTag('')
@@ -150,45 +124,21 @@ const SearchContainer = (props) => {
         }
     }
 
-    // FILTER COUNTRIES
     useEffect(() => {
-        if (tags.length > 0) {
-            setFilteredCountries(
-                countries.map(country => {
-                    if (tags.every(tag => country.tags.indexOf(tag) > -1)) {
-                        return country
-                    } else {
-                        null
-                    }
-                }).filter(el => el != null)
-            )
-        } else {
-            setFilteredCountries(countries)
+        if (filteredCountries.length === 1) {
+            setHeading("Flag Found")
+            return
         }
-    }, [countries, tags])
-
-    // HEADER
-    const [heading, setHeading] = useState("Loading")
-
-    useEffect(() => {
-        if(!props.countriesAreLoaded){
-            setHeading("Loading Flags")
-        } else {
-            if (filteredCountries.length === 1) {
-                setHeading("Flag Found")
-            } else {
-                if (tags.length < 1) {
-                    setHeading("All Flags")
-                } else {
-                    if (filteredCountries.length === 0) {
-                        setHeading("Not Found")
-                    } else {
-                        setHeading("Filtered Flags - "+filteredCountries.length)
-                    }
-                }
-            }
+        if (tags.length < 1) {
+            setHeading("All Flags")
+            return
         }
-    }, [tags, filteredCountries, props.countriesAreLoaded])
+        if (filteredCountries.length === 0) {
+            setHeading("Not Found")
+            return
+        }
+        setHeading("Filtered Flags - "+filteredCountries.length)
+    }, [tags, filteredCountries])
 
     return (
         <View>
@@ -208,7 +158,6 @@ const SearchContainer = (props) => {
                             value={newTag}
                             submitted={onSubmitHandler}
                             dataTags={dataTags}
-                            loaded={props.countriesAreLoaded }
                         />
 
                         <ScrollView style={styles.listContainer}>
@@ -216,7 +165,7 @@ const SearchContainer = (props) => {
                                 horizontal={true}
                                 contentContainerStyle={styles.list}
                             >
-                                {tagsList.map(tag => (
+                                {tags.map(tag => (
                                     <TagList
                                         key={tag.slug}
                                         removeTag={removeTag.bind(this, tag.slug)}

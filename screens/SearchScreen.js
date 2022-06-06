@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 
 import CountriesDisplay from '../containers/CountriesDisplay';
@@ -15,34 +15,19 @@ const SearchScreen = (props) => {
         props.navigation.navigate('Country', countrySelected)
     }
 
-    const [countriesAreLoaded, setCountriesAreLoaded] = useState(false)
     const dispatch = useDispatch();
-
-    const loadCountries = useCallback(async () => {
-        try {
-            await dispatch(countriesActions.fetchCountries());
-        } catch (err) {
-            throw err
-        }
-        setCountriesAreLoaded(true)
-    }, []);
 
     // LOAD FAVORITES
     useEffect(() => {
         dispatch(countriesActions.loadFavs());
     }, [dispatch]);
 
-    // LOAD COUNTRIES
-    useEffect(() => {
-        loadCountries()
-    }, [])
-
     return (
         <>
             <StatusBar backgroundColor={Colors.secondaryColor} />
             <SafeAreaView style={styles.screen}>
-                <SearchContainer navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} />
-                <CountriesDisplay navigation={props.navigation} countriesAreLoaded={countriesAreLoaded} onPress={selectItemHandler} />
+                <SearchContainer navigation={props.navigation} />
+                <CountriesDisplay navigation={props.navigation} onPress={selectItemHandler} />
                 <Banner />
             </SafeAreaView>
         </>

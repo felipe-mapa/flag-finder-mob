@@ -1,3 +1,5 @@
 /*.js
+/*.ts
 
 !/*.example.js
+!/*.example.ts

@@ -16,7 +16,7 @@ const CustomFlatList = (props) => {
     if (!props.isLoading && props.data.length === 0) {
         return (
             <View style={styles.screen}>
-                <EmptyPage page='Contact' title='FLAG NOT FOUND'>
+                <EmptyPage navigation={props.navigation} page='Contact' title='FLAG NOT FOUND'>
                     We are sorry to say the characteristics you added cannot
                     match any flag on our database. If you think there's any
                     characteristic or flag missing please flag as the problem.

@@ -1,40 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 
 import CustomFlatList from "../components/CustomFlatList";
+import useFilteredCountries from "../hooks/useFilteredCountries";
 
 const CountriesDisplay = (props) => {
-    const countries = useSelector((state) => state.countries.loadedCountries);
-    const tags = useSelector((state) => state.countries.tagsFilter);
-
-    const [filteredCountries, setFilteredCountries] = useState([]);
-
-    // FILTER COUNTRIES
-    useEffect(() => {
-        if (!props.countriesAreLoaded) {
-            return;
-        }
-        if (tags.length === 0) {
-            setFilteredCountries(countries);
-            return;
-        }
-        setFilteredCountries(
-            countries
-                .map((country) => {
-                    if (tags.every((tag) => country.tags.indexOf(tag) > -1)) {
-                        return country;
-                    } else {
-                        null;
-                    }
-                })
-                .filter((el) => el != null)
-        );
-    }, [countries, tags, props.countriesAreLoaded]);
+    const { filteredCountries } = useFilteredCountries();
 
     return (
         <CustomFlatList
             data={filteredCountries}
-            isLoading={countries.length === 0}
+            isLoading={false}
+            navigation={props.navigation}
             onPress={props.onPress}
         />
     );

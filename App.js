@@ -1,73 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import AppLoading from 'expo-app-loading';
-import * as Font from 'expo-font'
-import ReduxThunk from 'redux-thunk';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import { initializeApp } from 'firebase/app';
+import React from "react";
+import AppLoading from "expo-app-loading";
+import ReduxThunk from "redux-thunk";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import { initializeApp } from "firebase/app";
 import FlashMessage from "react-native-flash-message";
 
-import countriesReducer from './store/reducers/countriesReducer';
-import quizReducer from './store/reducers/quizReducer';
-import Navigator from './navigation/Navigator'
-import { initFav, initScore } from './store/database/db'
-import firebaseConfig from './config/firebaseConfig';
+import countriesReducer from "./store/reducers/countriesReducer";
+import quizReducer from "./store/reducers/quizReducer";
+import Navigator from "./navigation/Navigator";
+import { initFav, initScore } from "./store/database/db";
+import firebaseConfig from "./config/firebaseConfig";
+import NotLoaded from "./components/NotLoaded";
+
+import useLoadFont from "./hooks/useLoadFont";
+import useFetchAppData from "./hooks/useFetchAppData";
 
 // FIREBASE
 initializeApp(firebaseConfig);
 
 // LOAD DATABASE
-initFav()
-initScore()
+initFav();
+initScore();
 
 //LOAD STORE
 const rootReducer = combineReducers({
-  countries: countriesReducer,
-  quiz: quizReducer
+    countries: countriesReducer,
+    quiz: quizReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
+const AppWithProvider = () => {
+    return (
+        <Provider store={store}>
+            <App />
+        </Provider>
+    );
+};
+
 const App = () => {
-  //LOAD FONT
-  const [fontLoaded, setFontLoaded] = useState(false)
-  
-  useEffect(() => {
-    let mounted = true;
-    //FETCH FONT
-    (async() =>{
-      try{
-        await Font.loadAsync({
-          'comfortaa': require('./assets/fonts/Comfortaa-Regular.ttf'),
-          'comfortaa-bold': require('./assets/fonts/Comfortaa-Bold.ttf'),
-          'comfortaa-light': require('./assets/fonts/Comfortaa-Light.ttf')
-        })
+    const { isFontLoaded } = useLoadFont();
+    const { status, refetch } = useFetchAppData();
 
-        if (mounted) {
-          setFontLoaded(true)
-        }
-      } catch(err) {
-        console.log(err)
-        if (mounted) {
-          setFontLoaded(true)
-        }
-      }
-    })()
+    if (!isFontLoaded || status === "loading") {
+        return <AppLoading />;
+    }
 
-    return () => mounted =false
-  }, [])
+    if (status === "error") {
+        return <NotLoaded onPress={refetch} />;
+    }
 
-  if (!fontLoaded) {
-    return <AppLoading />
-  }
+    return (
+        <>
+            <Navigator />
+            <FlashMessage position='top' />
+        </>
+    );
+};
 
-
-  return (
-    <Provider store={store}>
-      <Navigator />
-      <FlashMessage position="top" />
-    </Provider>
-  );
-}
-
-export default App
+export default AppWithProvider;
