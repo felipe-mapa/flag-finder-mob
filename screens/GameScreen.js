@@ -11,6 +11,7 @@ import * as quizActions from '../store/actions/quizAction'
 import GameDisplay from '../containers/GameDisplay'
 import GameOverlay from '../components/GameOverlay';
 import { Image } from 'react-native';
+import { apiEndpoint } from '../config/env';
 
   const getRandomId = () => {
     var S4 = function () {
@@ -78,7 +79,7 @@ const GameScreen = (props) => {
       const newCountry = canBeOptions[randomCountry]
 
       // needs a callback to see the effect :/
-      Image.prefetch(newCountry.imageUrl, () => {
+      Image.prefetch(apiEndpoint + newCountry.image, () => {
         countryList = [...countryList, newCountry.slug]
         canBeOptions = canBeOptions.filter(val => val.slug !== newCountry.slug)
       })

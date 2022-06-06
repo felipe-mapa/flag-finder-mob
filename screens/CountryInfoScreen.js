@@ -19,6 +19,7 @@ import customMap from "../helpers/customMapStyle";
 import Banner from "../components/Banner";
 import * as countriesActions from "../store/actions/countriesAction";
 import Colors from "../components/layout/Colors";
+import { apiEndpoint } from "../config/env";
 
 const CountryInfoScreen = (props) => {
     // COUNTRY
@@ -26,7 +27,7 @@ const CountryInfoScreen = (props) => {
 
     const mainColor = useMemo(
         () =>
-            country.mainColor !== "" ? country.mainColor : Colors.primaryColor,
+            country.mainColor !== null ? country.mainColor : Colors.primaryColor,
         [country, Colors]
     );
 
@@ -91,15 +92,13 @@ const CountryInfoScreen = (props) => {
 
     return (
         <ScrollView style={styles.screen}>
-            <StatusBar backgroundColor={country.mainColor === null
-                    ? Colors.primaryColor
-                    : country.mainColor} />
+            <StatusBar backgroundColor={mainColor} />
             <View>
                 <View style={styles.block}>
                     <View style={styles.imageContainer}>
                         <Image
                             style={styles.image}
-                            source={{ uri: country.imageUrl }}
+                            source={{ uri: apiEndpoint + country.image }}
                         />
                     </View>
 

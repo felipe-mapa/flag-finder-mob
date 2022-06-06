@@ -11,6 +11,7 @@ import {
 import EmptyPage from "./EmpyPage";
 import TextDefault from "./layout/TextDefault";
 import CustomActivityIndicator from "./CustomActivityIndicator";
+import { apiEndpoint } from "../config/env";
 
 const CustomFlatList = (props) => {
     if (!props.isLoading && props.data.length === 0) {
@@ -34,7 +35,7 @@ const CustomFlatList = (props) => {
                         <View style={styles.imageContainer}>
                             <Image
                                 style={styles.image}
-                                source={{ uri: countryFound.imageUrl }}
+                                source={{ uri: apiEndpoint + countryFound.image }}
                             />
                         </View>
                         <TextDefault style={styles.textSingle}>
@@ -64,7 +65,7 @@ const CustomFlatList = (props) => {
                                 <View style={styles.imageContainer}>
                                     <Image
                                         style={styles.image}
-                                        source={{ uri: item.imageUrl }}
+                                        source={{ uri: apiEndpoint + item.image }}
                                     />
                                 </View>
                                 <TextDefault style={styles.text}>

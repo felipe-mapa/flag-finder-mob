@@ -6,6 +6,7 @@ import { Button } from 'react-native-elements'
 import Colors from '../components/layout/Colors'
 import CustomActivityIndicator from '../components/CustomActivityIndicator'
 import Banner from '../components/Banner';
+import { apiEndpoint } from '../config/env';
 
 const GameDisplay = props => {
     const { country, onLoadStart, onLoadEnd } = props
@@ -49,7 +50,7 @@ const GameDisplay = props => {
         <ScrollView style={styles.container}>
             <View style={styles.block}>
                 <View style={styles.imageContainer}>
-                    <Image onLoadStart={onLoadStart}  onLoadEnd={onLoadEnd} style={styles.image} source={{ uri: selectedCountry.imageUrl }} />
+                    <Image onLoadStart={onLoadStart}  onLoadEnd={onLoadEnd} style={styles.image} source={{ uri: apiEndpoint + selectedCountry.image }} />
                 </View>
                 {countryOptions.length > 0 ? (
                     <View style={styles.buttonGroupContainer}>
